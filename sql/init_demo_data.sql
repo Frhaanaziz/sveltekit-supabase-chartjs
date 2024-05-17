@@ -99,7 +99,8 @@ INSERT INTO
     identity_data,
     last_sign_in_at,
     created_at,
-    updated_at
+    updated_at,
+    provider_id
   )
 VALUES
   (
@@ -133,7 +134,8 @@ VALUES
     ),
     NOW(),
     NOW(),
-    NOW()
+    NOW(),
+    1
   ),
   (
     (
@@ -166,5 +168,6 @@ VALUES
     ),
     NOW(),
     NOW(),
-    NOW()
+    NOW(),
+    2
   );
