@@ -30,8 +30,6 @@
 						<div class="avatar">
 							<div class="rounded-full ring ring-primary w-12 h-12">
 								<img src={user.image} alt="Avatar Tailwind CSS Component" />
-								<!-- <img src="https://placeimg.com/64/64/people" alt="Avatar Tailwind CSS Component" /> -->
-								<!-- <img src="https://i.pravatar.cc/64" alt="Avatar Tailwind CSS Component" /> -->
 							</div>
 						</div>
 						<div>
@@ -48,21 +46,10 @@
 				<td>{user.eyeColor}</td>
 				<th>
 					<label for="user-modal" class="btn btn-primary btn-xs modal-button">details</label>
-					<!-- <button class="btn btn-primary btn-xs">details</button> -->
 				</th>
 			</tr>
 		{/each}
 	</tbody>
-	<!-- foot -->
-	<tfoot>
-		<tr>
-			<th />
-			<th>Name</th>
-			<th>Job</th>
-			<th>Favorite Color</th>
-			<th />
-		</tr>
-	</tfoot>
 </table>
 
 <!-- Put this part before </body> tag -->
