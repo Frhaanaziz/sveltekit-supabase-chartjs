@@ -2,7 +2,7 @@
 	import DashboardPage from '$lib/components/dashboard/DashboardPage.svelte';
 	import { onMount } from 'svelte';
 
-	import { toast } from '$lib/components/Toast';
+	import toast from 'svelte-french-toast';
 	import type { ActionData, PageData } from './$types';
 
 	export let data: PageData;
@@ -11,11 +11,8 @@
 	const user = data.session?.user;
 
 	onMount(async () => {
-		// if (form?.success) {
-		// 	toast.push(form.success, { classes: ['alert-success'] });
-		// }
 		if (form?.error) {
-			toast.push(form.error, { classes: ['alert-error'] });
+			typeof form.error === 'string' && toast.error(form.error);
 		}
 	});
 </script>

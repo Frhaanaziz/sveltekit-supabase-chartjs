@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
-	import { toast } from '$lib/components/Toast';
 	import ActionButton from '$lib/components/dashboard/ActionButton.svelte';
 	import DashboardPage from '$lib/components/dashboard/DashboardPage.svelte';
 	import FilesTable from '$lib/components/dashboard/FilesTable.svelte';
 	import { FileIcon, UploadIcon } from 'svelte-feather-icons';
+	import toast from 'svelte-french-toast';
 	import type { PageData } from './$types';
 	export let data: PageData;
 	let view = 'home';
@@ -16,9 +16,9 @@
 		const res = await data.supabase.storage.from('TEST').upload('TEST/' + file.name, file);
 
 		if (res.error) {
-			toast.push('FILE UPLOAD ERROR!', { classes: ['alert-error'] });
+			toast.error('FILE UPLOAD ERROR!');
 		} else {
-			toast.push('File upload succesful!', { classes: ['alert-success'] });
+			toast.success('File upload succesful!');
 		}
 
 		view = 'home';

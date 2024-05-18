@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { applyAction, deserialize, enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
-	import { toast } from '$lib/components/Toast';
 	import ActionButton from '$lib/components/dashboard/ActionButton.svelte';
 	import DashboardPage from '$lib/components/dashboard/DashboardPage.svelte';
 	import UsersTable from '$lib/components/dashboard/UsersTable.svelte';
@@ -9,6 +8,7 @@
 	import type { ActionResult } from '@sveltejs/kit';
 	import { PlusIcon, UsersIcon, XIcon } from 'svelte-feather-icons';
 	import type { ActionData, PageData } from './$types';
+	import toast from 'svelte-french-toast';
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -40,10 +40,10 @@
 	$: {
 		if (form?.success) {
 			view = 'home';
-			toast.push(form.success, { classes: ['alert-success'] });
+			toast.success(form.success);
 		}
 		if (form?.error) {
-			toast.push(form.error, { classes: ['alert-error'] });
+			toast.error(form.error);
 		}
 	}
 

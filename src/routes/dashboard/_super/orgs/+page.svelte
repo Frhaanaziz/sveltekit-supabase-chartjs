@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { applyAction, deserialize, enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
-	import { toast } from '$lib/components/Toast';
 	import DashboardPage from '$lib/components/dashboard/DashboardPage.svelte';
 	import OrgsTable from '$lib/components/dashboard/OrgsTable.svelte';
 	import type { ActionResult } from '@sveltejs/kit';
 	import { ArchiveIcon, EditIcon, PlusIcon, XIcon } from 'svelte-feather-icons';
+	import toast from 'svelte-french-toast';
 	import type { ActionData, PageData } from './$types';
 
 	export let data: PageData;
@@ -23,7 +23,6 @@
 		});
 
 		const result: ActionResult = deserialize(await response.text());
-		console.log(result);
 
 		if (result.type === 'success') {
 			// re-run all `load` functions, following the successful update
@@ -34,7 +33,6 @@
 	};
 
 	const onAction = (a) => {
-		console.log(a);
 		switch (a.action) {
 			case 'delete':
 				deleteAction(a.row.id);
@@ -45,10 +43,10 @@
 	$: {
 		if (form?.success) {
 			view = 'home';
-			toast.push(form.success, { classes: ['alert-success'] });
+			toast.success(form.success);
 		}
 		if (form?.error) {
-			toast.push(form.error, { classes: ['alert-error'] });
+			toast.error(form.error);
 		}
 	}
 </script>
