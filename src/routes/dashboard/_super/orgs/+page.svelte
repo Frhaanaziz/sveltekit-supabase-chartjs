@@ -27,6 +27,7 @@
 		if (result.type === 'success') {
 			// re-run all `load` functions, following the successful update
 			await invalidateAll();
+			toast.success('Organization deleted successfully');
 		}
 
 		applyAction(result);
@@ -40,19 +41,10 @@
 		}
 	};
 
-	$: {
-		if (form?.success) {
-			view = 'home';
-			toast.success(form.success);
-		}
-		if (form?.error) {
-			toast.error(form.error);
-		}
-	}
+	$: if (form?.error) toast.error('Failed to add organization, please try again');
 </script>
 
 <!-- https://svelte.dev/repl/b17c13d4f1bb40799ccf09e0841ddd90?version=3.55.0 -->
-
 {#if view == 'home'}
 	<DashboardPage>
 		<span slot="icon"><ArchiveIcon /></span>
