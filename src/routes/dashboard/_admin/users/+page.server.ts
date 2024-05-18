@@ -5,19 +5,26 @@ import { PUBLIC_DEMO_MODE } from '$env/static/public';
 import { supabaseAdminClient as supabaseClient } from '$lib/server/supabase';
 import { roleAdmin, roleSuper } from '$lib/utils';
 import { fail } from '@sveltejs/kit';
+import type { Organization } from '../../../../types';
 
 export const load: PageServerLoad = async ({ locals: { supabase, getSession } }) => {
 	const session = await getSession();
+	if (!session) return fail(401, { error: 'Unauthorized' });
 	const org = session?.user.app_metadata.org;
 
 	const res = await supabaseClient.auth.admin.listUsers();
 	let users: User[] = [];
-	let orgs = [];
+	let orgs: Pick<Organization, 'id' | 'name'>[] = [];
 	// console.log(session.user)
 	if (roleAdmin(session)) {
 		users = res.data.users;
 
 		const r = await supabase.from('orgs').select('id,name');
+		if (!r.data) {
+			console.error('No orgs found', r.error);
+			return fail(400, { error: 'No orgs found' });
+		}
+
 		orgs = r.data;
 		// console.log(orgs)
 
@@ -36,20 +43,20 @@ export const load: PageServerLoad = async ({ locals: { supabase, getSession } })
 export const actions: Actions = {
 	create: async ({ request, locals: { getSession } }) => {
 		const session = await getSession();
+		if (!session) return fail(401, { error: 'Unauthorized' });
+
 		const form_data = await request.formData();
 		const email = form_data.get('email')?.toString();
 		const role = form_data.get('role')?.toString();
 		const password = form_data.get('password')?.toString();
-		let org: any | undefined;
+		let org: Pick<Organization, 'id' | 'name'> | undefined;
 
 		if (roleSuper(session)) {
 			const tmp = JSON.parse(form_data.get('org')?.toString() ?? '');
 			org = { id: tmp.id, name: tmp.name };
 			console.log(org);
 		} else {
-			if (role == 'super') {
-				return fail(400, { error: 'You are kidding me?' });
-			}
+			if (role == 'super') return fail(400, { error: 'You are kidding me?' });
 			org = session?.user.app_metadata.org;
 		}
 
@@ -61,9 +68,9 @@ export const actions: Actions = {
 			app_metadata: { org, role },
 			email_confirm: true
 		});
-		// console.log(res)
 
 		if (res.error) {
+			console.error('Failed to create user', res.error);
 			return fail(400, { error: res.error.message });
 		}
 

@@ -7,11 +7,16 @@
 	import { roleSuper } from '$lib/utils';
 	import type { ActionResult } from '@sveltejs/kit';
 	import { PlusIcon, UsersIcon, XIcon } from 'svelte-feather-icons';
-	import type { ActionData, PageData } from './$types';
 	import toast from 'svelte-french-toast';
+	import type { ActionData, PageData } from './$types';
 
 	export let data: PageData;
 	export let form: ActionData;
+
+	const orgs = data.orgs;
+	const users = data.users;
+	const session = data.session;
+	if (!orgs || !users || !session) throw new Error('Missing data');
 
 	let view = 'home';
 
@@ -82,7 +87,7 @@
 				<div
 					class="overflow-x-auto w-full scrollbar-thin scrollbar-thumb-gray-400 overflow-y-scroll"
 				>
-					<UsersTable users={data.users} {onAction} />
+					<UsersTable {users} {onAction} />
 				</div>
 			</div>
 		</span>
@@ -119,13 +124,13 @@
 					</label>
 				</div>
 
-				{#if roleSuper(data.session)}
+				{#if roleSuper(session)}
 					<div class="form-control mt-5">
 						<label class="input-group">
 							<span class="w-1/5 text-xl bg-primary">Organization</span>
 							<select id="org" name="org" class="select select-bordered w-4/5">
 								<option disabled selected>Organization</option>
-								{#each data.orgs as org}
+								{#each orgs as org}
 									<option value={JSON.stringify(org)} class="block w-full">{org.name}</option>
 								{/each}
 							</select>
@@ -140,7 +145,7 @@
 							<option disabled selected>Role</option>
 							<option value="user">User</option>
 							<option value="admin">Admin</option>
-							{#if roleSuper(data.session)}
+							{#if roleSuper(session)}
 								<option value="super">Super</option>
 							{/if}
 						</select>
