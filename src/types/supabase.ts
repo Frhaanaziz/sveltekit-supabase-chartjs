@@ -74,80 +74,12 @@ export type Database = {
           },
         ]
       }
-      tracking: {
-        Row: {
-          event: Json | null
-          id: number
-          timestamp: string
-          user: Json | null
-        }
-        Insert: {
-          event?: Json | null
-          id?: number
-          timestamp?: string
-          user?: Json | null
-        }
-        Update: {
-          event?: Json | null
-          id?: number
-          timestamp?: string
-          user?: Json | null
-        }
-        Relationships: []
-      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      delete_claim: {
-        Args: {
-          uid: string
-          claim: string
-        }
-        Returns: string
-      }
-      get_claim: {
-        Args: {
-          uid: string
-          claim: string
-        }
-        Returns: Json
-      }
-      get_claims: {
-        Args: {
-          uid: string
-        }
-        Returns: Json
-      }
-      get_my_claim: {
-        Args: {
-          claim: string
-        }
-        Returns: Json
-      }
-      get_my_claims: {
-        Args: Record<PropertyKey, never>
-        Returns: Json
-      }
-      is_claims_admin: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
-      log: {
-        Args: {
-          message: string
-        }
-        Returns: undefined
-      }
-      set_claim: {
-        Args: {
-          uid: string
-          claim: string
-          value: Json
-        }
-        Returns: string
-      }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never

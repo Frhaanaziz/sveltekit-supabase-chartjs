@@ -10,9 +10,11 @@ import type { Organization } from '../../../../types';
 export const load: PageServerLoad = async ({ locals: { supabase, getSession } }) => {
 	const session = await getSession();
 	if (!session) return fail(401, { error: 'Unauthorized' });
+
 	const org = session?.user.app_metadata.org;
 
 	const res = await supabaseClient.auth.admin.listUsers();
+	console.log(res);
 	let users: User[] = [];
 	let orgs: Pick<Organization, 'id' | 'name'>[] = [];
 	// console.log(session.user)
@@ -49,12 +51,12 @@ export const actions: Actions = {
 		const email = form_data.get('email')?.toString();
 		const role = form_data.get('role')?.toString();
 		const password = form_data.get('password')?.toString();
+
 		let org: Pick<Organization, 'id' | 'name'> | undefined;
 
 		if (roleSuper(session)) {
 			const tmp = JSON.parse(form_data.get('org')?.toString() ?? '');
 			org = { id: tmp.id, name: tmp.name };
-			console.log(org);
 		} else {
 			if (role == 'super') return fail(400, { error: 'You are kidding me?' });
 			org = session?.user.app_metadata.org;

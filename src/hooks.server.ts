@@ -72,17 +72,5 @@ export const handle: Handle = async ({ event, resolve }) => {
 		return ret;
 	}
 
-	// if (event.request.method === 'POST') {
-	//     const form_data = await event.request.formData()
-	//     console.log(form_data)
-	// }
-
-	const res = await event.locals.supabase
-		.from('tracking')
-		.insert([{ user: session?.user, event: event.url }]);
-	if (res.error) {
-		console.log(res.error);
-	}
-
 	return ret;
 };
