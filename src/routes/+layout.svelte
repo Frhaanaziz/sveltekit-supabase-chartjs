@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { Toaster } from 'svelte-french-toast';
 	import '../app.postcss';
 </script>
 
@@ -9,3 +10,4 @@
 </svelte:head>
 
 <slot />
+<Toaster position={'top-center'} />

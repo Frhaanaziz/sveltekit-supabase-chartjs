@@ -52,6 +52,7 @@
 		"chartjs-adapter-date-fns": "^3.0.0",
 		"date-fns": "^2.30.0",
 		"svelte-chartjs": "^3.1.5",
+		"svelte-french-toast": "^1.2.0",
 		"svelte-markdown": "^0.3.0",
 		"svelte-select": "^5.8.3",
 		"svelte-table": "^0.5.11",
