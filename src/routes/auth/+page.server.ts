@@ -73,20 +73,6 @@ export const actions: Actions = {
 		throw redirect(303, '/dashboard/startup');
 	},
 
-	// invite: async ({ request, locals: { supabase, getSession } }) => {
-	// 	console.log("invite");
-	// 	console.log(supabaseAdminClient.auth.admin)
-
-	// 	const form_data = await request.form_data();
-	// 	const email = form_data.get('email') as string;
-
-	// 	const { data: user, error } = await supabaseAdminClient.auth
-	// 		.admin
-	// 		.inviteUserByEmail(email)
-	// 	console.log(error)
-
-	// },
-
 	forgot: async ({ request, locals: { supabase } }) => {
 		const form_data = await request.formData();
 		const email = form_data.get('email') as string;
