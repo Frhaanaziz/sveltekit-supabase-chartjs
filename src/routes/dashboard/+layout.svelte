@@ -3,7 +3,6 @@
 	import DashboardMenu from '$lib/components/dashboard/DashboardMenu.svelte';
 	import DashboardNavBar from '$lib/components/dashboard/DashboardNavBar.svelte';
 	import DemoUserNotice from '$lib/components/DemoMode/DemoUserNotice.svelte';
-	import { Toast } from '$lib/components/Toast';
 	import { onMount } from 'svelte';
 	import { Jumper } from 'svelte-loading-spinners';
 	import { themeChange } from 'theme-change';
@@ -17,7 +16,6 @@
 
 <section id="body" class="flex flex-row h-screen">
 	<DashboardMenu />
-	<Toast />
 
 	<div class="flex flex-col w-full">
 		<DashboardNavBar />
