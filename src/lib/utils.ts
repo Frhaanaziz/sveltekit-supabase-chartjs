@@ -1,4 +1,5 @@
-import type { Session, User } from '@supabase/supabase-js';
+import type { AuthSession, Session, User } from '@supabase/supabase-js';
+import type { Organization } from '../types';
 
 export const userColor = (role: string) => {
 	if (role === 'admin') return 'stroke-warning';
@@ -16,9 +17,9 @@ export const isSuper = (role: string) => {
 	else return false;
 };
 
-export const orgIdToName = (orgs: any, id: number) => {
-	const result = orgs.find((e) => e.id == id);
-	return result.name;
+export const orgIdToName = (orgs: Organization[], id: Organization['id']) => {
+	const result = orgs.find((e) => e.id === id);
+	return result?.name;
 };
 
 export const myUser = (session: Session | null) => {
@@ -39,16 +40,16 @@ export const imSuper = (user: User | null | undefined) => {
 };
 
 export const imAdmin = (user: User | null | undefined) => {
-	if (['super', 'admin'].includes(user.app_metadata.role)) return true;
+	if (['super', 'admin'].includes(user?.app_metadata.role)) return true;
 	else return false;
 };
 
-export const roleSuper = (session: any) => {
+export const roleSuper = (session: AuthSession) => {
 	if (['super'].includes(session.user.app_metadata.role)) return true;
 	else return false;
 };
 
-export const roleAdmin = (session: any) => {
+export const roleAdmin = (session: AuthSession) => {
 	if (['super', 'admin'].includes(session.user.app_metadata.role)) return true;
 	else return false;
 };
