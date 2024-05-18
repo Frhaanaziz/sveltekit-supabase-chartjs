@@ -6,7 +6,7 @@
 	import type { ActionResult } from '@sveltejs/kit';
 	import { ArchiveIcon, EditIcon, PlusIcon, XIcon } from 'svelte-feather-icons';
 	import toast from 'svelte-french-toast';
-	import type { Orgs } from '../../../../types';
+	import type { Organization } from '../../../../types';
 	import type { ActionData, PageData } from './$types';
 
 	export let data: PageData;
@@ -18,7 +18,7 @@
 	let view = 'home';
 
 	// https://kit.svelte.dev/docs/form-actions#progressive-enhancement-custom-event-listener
-	const deleteAction = async (id: Orgs['id']) => {
+	const deleteAction = async (id: Organization['id']) => {
 		const data = new FormData();
 		data.append('id', id);
 		const response = await fetch('orgs?/delete', {
@@ -73,10 +73,6 @@
 		<span slot="icon"><EditIcon /></span>
 		<span slot="title">Add organization</span>>
 		<span slot="actions">
-			<!-- <button type="submit" form="user" class="btn btn-primary mx-2">
-				<SaveIcon class="mr-2 h-4 w-4" />
-				SAVE
-			</button> -->
 			<button
 				on:click={() => {
 					view = 'home';

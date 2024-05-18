@@ -7,11 +7,10 @@ export const load: PageServerLoad = async ({ locals: { supabase, getSession } })
 	const session = await getSession();
 
 	if (imSuper(session?.user ?? null)) {
-		// GET ALL ORGS
+		// GET ALL ORGS AND THEIR PROFILES
 		const res = await supabase.from('orgs').select('*, profiles(*)');
-		if (res.data) {
-			return { orgs: res.data };
-		}
+
+		if (res.data) return { orgs: res.data };
 	}
 };
 
@@ -36,9 +35,7 @@ export const actions: Actions = {
 	},
 
 	delete: async ({ request, locals: { supabase } }) => {
-		if (PUBLIC_DEMO_MODE == 'true') {
-			return { error: 'ORGANIZATION DELETE DISABLED IN DEMO MODE!' };
-		}
+		if (PUBLIC_DEMO_MODE) return fail(403, { error: 'Forbidden in demo mode' });
 
 		const form_data = await request.formData();
 		const id = form_data.get('id')?.toString();
