@@ -51,7 +51,7 @@ export const actions: Actions = {
 		const email = form_data.get('email') as string;
 		const password = form_data.get('password') as string;
 
-		const { error } = await supabase.auth.signUp({
+		const { error, data } = await supabase.auth.signUp({
 			email,
 			password
 		});
@@ -68,6 +68,11 @@ export const actions: Actions = {
 			return fail(500, {
 				error: 'Server error. Try again later.'
 			});
+		}
+
+		if (data.user) {
+			const user = data.user;
+			await supabase.from('profiles').insert([{ id: user.id, email, name: 'New User' }]);
 		}
 
 		throw redirect(303, '/dashboard/startup');
