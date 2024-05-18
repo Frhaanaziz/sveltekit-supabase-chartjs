@@ -6,15 +6,19 @@
 	import type { ActionResult } from '@sveltejs/kit';
 	import { ArchiveIcon, EditIcon, PlusIcon, XIcon } from 'svelte-feather-icons';
 	import toast from 'svelte-french-toast';
+	import type { Orgs } from '../../../../types';
 	import type { ActionData, PageData } from './$types';
 
 	export let data: PageData;
 	export let form: ActionData;
 
+	const orgs = data.orgs;
+	if (!orgs) throw new Error('orgs not found in data');
+
 	let view = 'home';
 
 	// https://kit.svelte.dev/docs/form-actions#progressive-enhancement-custom-event-listener
-	const deleteAction = async (id) => {
+	const deleteAction = async (id: Orgs['id']) => {
 		const data = new FormData();
 		data.append('id', id);
 		const response = await fetch('orgs?/delete', {
@@ -33,7 +37,7 @@
 		applyAction(result);
 	};
 
-	const onAction = (a) => {
+	const onAction = (a: any) => {
 		switch (a.action) {
 			case 'delete':
 				deleteAction(a.row.id);
