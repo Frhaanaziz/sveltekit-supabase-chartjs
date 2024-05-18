@@ -8,7 +8,7 @@ export const load: PageServerLoad = async ({ locals: { supabase, getSession } })
 
 	if (imSuper(session?.user ?? null)) {
 		// GET ALL ORGS
-		const res = await supabase.from('orgs').select();
+		const res = await supabase.from('orgs').select('*, profiles(*)');
 		if (res.data) {
 			return { orgs: res.data };
 		}
@@ -17,23 +17,19 @@ export const load: PageServerLoad = async ({ locals: { supabase, getSession } })
 
 export const actions: Actions = {
 	create: async ({ request, locals: { supabase, getSession } }) => {
-		// if (PUBLIC_DEMO_MODE == 'true') {
-		//     return { error: "ORGANIZATION CREATION DISABLED IN DEMO MODE!" }
-		// }
-
 		const session = await getSession();
-		const formData = await request.formData();
-		const name = formData.get('name')?.toString();
+		if (!session) return fail(401, { error: 'Unauthorized' });
 
-		// INSERT ORG
-		const res = await supabase
-			.from('orgs')
-			.upsert({ name, created_by: session?.user.email })
-			.select('id')
-			.single();
+		const formData = await request.formData();
+
+		const name = formData.get('name')?.toString();
+		if (!name) return fail(400, { error: 'Invalid organization name' });
+
+		const res = await supabase.from('orgs').upsert({ name, created_by: session.user.id }).single();
 
 		if (res.error) {
-			return fail(400, { error: res.error.details });
+			console.error('Failed to create organization', res.error);
+			return fail(400, { error: res.error.message });
 		}
 
 		return { success: `Organization ${name} created succesfully` };
@@ -44,19 +40,13 @@ export const actions: Actions = {
 			return { error: 'ORGANIZATION DELETE DISABLED IN DEMO MODE!' };
 		}
 
-		// console.log('deleting org')
 		const form_data = await request.formData();
 		const id = form_data.get('id')?.toString();
-
-		// console.log(form_data)
+		if (!id) return fail(400, { error: 'Invalid organization id' });
 
 		const res = await supabase.from('orgs').delete().eq('id', id);
 
-		// console.log(res)
-
-		if (res.error) {
-			return fail(400, { error: res.error.message });
-		}
+		if (res.error) return fail(400, { error: res.error.message });
 
 		return { success: 'Organization deleted succesfully' };
 	}
