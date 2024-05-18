@@ -1,11 +1,12 @@
 <script lang="ts">
-	import SvelteTable from 'svelte-table';
+	import SvelteTable, { type TableColumns } from 'svelte-table';
+	import type { Organization } from '../../../types';
 	import TableActions from './TableActions.svelte';
 	import TimeInTable from './TimeInTable.svelte';
-	export let orgs: Array<any>;
+	export let orgs: Organization[];
 	export let onAction;
 
-	const columns: any = [
+	const columns = [
 		{
 			key: 'name',
 			title: 'Name',
@@ -15,7 +16,7 @@
 		{
 			key: 'created_by',
 			title: 'Created by',
-			value: (v: any) => v.created_by,
+			value: (v: any) => v.profiles.name,
 			sortable: true
 		},
 		{
@@ -29,13 +30,14 @@
 			}
 		},
 		{
+			key: 'delete-action',
 			title: '',
 			renderComponent: {
 				component: TableActions,
 				props: { actions: ['delete'], onAction }
 			}
 		}
-	];
+	] satisfies TableColumns<Organization>;
 </script>
 
 <SvelteTable
