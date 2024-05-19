@@ -4,12 +4,7 @@ import { error } from '@sveltejs/kit';
 /** @type {import('./$types').PageServerLoad} */
 export async function load() {
 	const { data: users, error: e } = await supabaseClient.auth.admin.listUsers();
+	if (e) throw error(500, e.message);
 
-	console.log(users, e);
-
-	return {
-		users: users
-	};
-
-	throw error(404, 'Not found');
+	return { users };
 }
