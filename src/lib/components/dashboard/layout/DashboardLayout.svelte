@@ -58,7 +58,7 @@
 			<!-- Header -->
 			<DashboardHeader />
 
-			<main class="py-10 px-4 sm:px-6 lg:px-8">
+			<main class="py-10 px-4 sm:px-6 lg:px-8 min-h-[calc(100vh-4rem)] bg-base-200">
 				{#if $navigating}
 					<div class="flex h-full items-center justify-center min-h-[calc(100vh-4rem)]">
 						<Jumper size="120" unit="px" duration="1s" color="#000" />
