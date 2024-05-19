@@ -106,10 +106,5 @@
 				</li>
 			</ul>
 		</div>
-
-		{#if isSuper(role)}
-			<!-- svelte-ignore missing-declaration -->
-			<div class="dropdown dropdown-right dropdown-end mb-0 text-xs">{__VERSION__}</div>
-		{/if}
 	</div>
 </div>
