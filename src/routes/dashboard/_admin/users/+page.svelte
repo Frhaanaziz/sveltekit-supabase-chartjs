@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { applyAction, deserialize, enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
-	import ActionButton from '$lib/components/dashboard/ActionButton.svelte';
+	import { page } from '$app/stores';
 	import DashboardPage from '$lib/components/dashboard/DashboardPage.svelte';
 	import UsersTable from '$lib/components/dashboard/UsersTable.svelte';
 	import { roleSuper } from '$lib/utils';
 	import type { ActionResult } from '@sveltejs/kit';
-	import { PlusIcon, UsersIcon, XIcon } from 'svelte-feather-icons';
 	import toast from 'svelte-french-toast';
 	import type { ActionData, PageData } from './$types';
 
@@ -18,6 +17,7 @@
 	const session = data.session;
 	if (!orgs || !users || !session) throw new Error('Missing data');
 
+	const pathname = $page.url.pathname;
 	let view = 'home';
 
 	// https://kit.svelte.dev/docs/form-actions#progressive-enhancement-custom-event-listener
@@ -66,21 +66,18 @@
 </script>
 
 {#if view == 'home'}
-	<DashboardPage>
-		<span slot="icon"><UsersIcon /></span>
+	<DashboardPage {pathname}>
 		<span slot="title">Users</span>
 
-		<span slot="actions">
-			<ActionButton
-				class="btn-warning"
-				text="add user"
-				onAction={() => {
-					view = 'add';
-				}}
-			>
-				<span slot="icon"><PlusIcon /></span>
-			</ActionButton>
-		</span>
+		<!-- <ActionButton
+			class="btn-warning"
+			text="add user"
+			onAction={() => {
+				view = 'add';
+			}}
+		>
+			<span slot="icon"><PlusIcon /></span>
+		</ActionButton> -->
 
 		<span slot="content" class="w-full">
 			<div class="card flex-col lg:flex-row bg-base-300 shadow-xl">
@@ -93,19 +90,16 @@
 		</span>
 	</DashboardPage>
 {:else if (view = 'add')}
-	<DashboardPage>
-		<span slot="icon"> <PlusIcon /></span>
+	<DashboardPage {pathname}>
 		<span slot="title"> Add user </span>
-		<span slot="actions">
-			<ActionButton
-				text="CANCEL"
-				onAction={() => {
-					view = 'home';
-				}}
-			>
-				<span slot="icon"><XIcon /></span>
-			</ActionButton>
-		</span>
+		<!-- <ActionButton
+			text="CANCEL"
+			onAction={() => {
+				view = 'home';
+			}}
+		>
+			<span slot="icon"><XIcon /></span>
+		</ActionButton> -->
 
 		<span slot="content" class="w-full h-full">
 			<form method="POST" action="?/create" use:enhance>

@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
-	import ActionButton from '$lib/components/dashboard/ActionButton.svelte';
+	import { page } from '$app/stores';
 	import DashboardPage from '$lib/components/dashboard/DashboardPage.svelte';
 	import FilesTable from '$lib/components/dashboard/FilesTable.svelte';
-	import { FileIcon, UploadIcon } from 'svelte-feather-icons';
 	import toast from 'svelte-french-toast';
 	import type { PageData } from './$types';
+
 	export let data: PageData;
 	let view = 'home';
+	const pathname = $page.url.pathname;
 
 	const handleUpload = async (event: any) => {
 		console.log(event.target.files);
@@ -27,26 +28,22 @@
 </script>
 
 {#if view == 'home'}
-	<DashboardPage>
-		<span slot="icon"><FileIcon /></span>
+	<DashboardPage {pathname}>
 		<span slot="title">Files</span>
-		<span slot="actions">
-			<ActionButton
+		<!-- <ActionButton
 				text="UPLOAD"
 				onAction={() => {
 					view = 'upload';
 				}}
 			>
 				<span slot="icon"><UploadIcon /></span>
-			</ActionButton>
-		</span>
+			</ActionButton> -->
 		<span slot="content" class="w-full">
 			<FilesTable files={data.files} />
 		</span>
 	</DashboardPage>
 {:else if view == 'upload'}
-	<DashboardPage>
-		<span slot="icon"><UploadIcon /></span>
+	<DashboardPage {pathname}>
 		<span slot="title">Upload</span>
 
 		<span slot="content" class="w-full">

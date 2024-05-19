@@ -2,6 +2,7 @@
 	import DashboardPage from '$lib/components/dashboard/DashboardPage.svelte';
 	import { onMount } from 'svelte';
 
+	import { page } from '$app/stores';
 	import toast from 'svelte-french-toast';
 	import type { ActionData, PageData } from './$types';
 
@@ -9,6 +10,7 @@
 	export let form: ActionData;
 
 	const user = data.session?.user;
+	const pathname = $page.url.pathname;
 
 	onMount(async () => {
 		if (form?.error) {
@@ -17,7 +19,7 @@
 	});
 </script>
 
-<DashboardPage>
+<DashboardPage {pathname}>
 	<span slot="content">
 		<div class="hero bg-base-200">
 			<div class="hero-content">

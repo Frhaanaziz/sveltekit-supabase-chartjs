@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { applyAction, deserialize, enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
+	import { page } from '$app/stores';
 	import DashboardPage from '$lib/components/dashboard/DashboardPage.svelte';
 	import OrgsTable from '$lib/components/dashboard/OrgsTable.svelte';
 	import type { Organization } from '$types';
 	import type { ActionResult } from '@sveltejs/kit';
-	import { ArchiveIcon, EditIcon, PlusIcon, XIcon } from 'svelte-feather-icons';
 	import toast from 'svelte-french-toast';
 	import type { ActionData, PageData } from './$types';
 
@@ -15,6 +15,7 @@
 	const orgs = data.orgs;
 	if (!orgs) throw new Error('orgs not found in data');
 
+	const pathname = $page.url.pathname;
 	let view = 'home';
 
 	// https://kit.svelte.dev/docs/form-actions#progressive-enhancement-custom-event-listener
@@ -50,11 +51,9 @@
 
 <!-- https://svelte.dev/repl/b17c13d4f1bb40799ccf09e0841ddd90?version=3.55.0 -->
 {#if view == 'home'}
-	<DashboardPage>
-		<span slot="icon"><ArchiveIcon /></span>
+	<DashboardPage {pathname}>
 		<span slot="title">Organizations</span>
-		<span slot="actions">
-			<button
+		<!-- <button
 				class="btn btn-primary gap-2"
 				on:click={() => {
 					view = 'add';
@@ -62,18 +61,15 @@
 			>
 				<PlusIcon class="h-4 w-4" />
 				add org
-			</button>
-		</span>
+			</button> -->
 		<span slot="content" class="w-full">
 			<OrgsTable orgs={data.orgs} {onAction} />
 		</span>
 	</DashboardPage>
 {:else if view == 'add'}
-	<DashboardPage>
-		<span slot="icon"><EditIcon /></span>
+	<DashboardPage {pathname}>
 		<span slot="title">Add organization</span>>
-		<span slot="actions">
-			<button
+		<!-- <button
 				on:click={() => {
 					view = 'home';
 				}}
@@ -81,8 +77,7 @@
 			>
 				<XIcon class="mr-2 h-4 w-4" />
 				CANCEL
-			</button>
-		</span>
+			</button> -->
 		<span slot="content" class="w-full">
 			<form id="user" method="POST" action="?/create" enctype="multipart/form-data" use:enhance>
 				<div class="form-control gap-y-3">
