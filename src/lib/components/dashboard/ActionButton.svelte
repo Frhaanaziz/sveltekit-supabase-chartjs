@@ -4,7 +4,7 @@
 
 	export let onAction: any = null;
 	export let text: string | null = null;
-	export let type: string | null = null;
+	export let type: 'submit' | 'button' | 'reset' | 'refresh';
 	export let form: string | null = null;
 	let clazz: string | null = null;
 	export { clazz as class };
