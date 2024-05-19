@@ -11,16 +11,13 @@
 
 	$: {
 		// TODO CLEAN THIS RUBISH
-		active = (((dest ?? '').split('/') ?? []).at(-1) ?? '').includes(
-			(($page.url.pathname ?? '').split('/') ?? []).at(-1) ?? ''
-		);
+		active = dest.split('/').slice(-1)[0] === $page.url.pathname.split('/').slice(-1)[0];
 	}
 </script>
 
 <div class="py-1 tooltip tooltip-right" data-tip={tooltip}>
-	<label
-		for="drawer"
-		class={`drawer-button btn btn-square gap-2 ${clazz || ''}`}
+	<button
+		class={`btn btn-square gap-2 ${clazz || ''}`}
 		class:btn-active={active}
 		class:btn-ghost={!noghost}
 		on:click={() => {
@@ -31,5 +28,5 @@
 		}}
 	>
 		<slot name="icon" />
-	</label>
+	</button>
 </div>
