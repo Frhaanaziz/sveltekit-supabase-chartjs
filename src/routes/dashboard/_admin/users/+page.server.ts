@@ -4,8 +4,8 @@ import type { Actions, PageServerLoad } from './$types';
 import { PUBLIC_DEMO_MODE } from '$env/static/public';
 import { supabaseAdminClient as supabaseClient } from '$lib/server/supabase';
 import { roleAdmin, roleSuper } from '$lib/utils';
-import { fail } from '@sveltejs/kit';
 import type { Organization } from '$types';
+import { fail } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ locals: { supabase, getSession } }) => {
 	const session = await getSession();
@@ -14,7 +14,6 @@ export const load: PageServerLoad = async ({ locals: { supabase, getSession } })
 	const org = session?.user.app_metadata.org;
 
 	const res = await supabaseClient.auth.admin.listUsers();
-	console.log(res);
 	let users: User[] = [];
 	let orgs: Pick<Organization, 'id' | 'name'>[] = [];
 	// console.log(session.user)
