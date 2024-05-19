@@ -1,5 +1,5 @@
 import type { AuthSession, Session, User } from '@supabase/supabase-js';
-import type { Organization } from '../types';
+import type { Organization } from '$types';
 
 export const userColor = (role: string) => {
 	if (role === 'admin') return 'stroke-warning';

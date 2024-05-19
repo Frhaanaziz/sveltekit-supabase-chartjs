@@ -3,10 +3,10 @@
 	import { invalidateAll } from '$app/navigation';
 	import DashboardPage from '$lib/components/dashboard/DashboardPage.svelte';
 	import OrgsTable from '$lib/components/dashboard/OrgsTable.svelte';
+	import type { Organization } from '$types';
 	import type { ActionResult } from '@sveltejs/kit';
 	import { ArchiveIcon, EditIcon, PlusIcon, XIcon } from 'svelte-feather-icons';
 	import toast from 'svelte-french-toast';
-	import type { Organization } from '../../../../types';
 	import type { ActionData, PageData } from './$types';
 
 	export let data: PageData;

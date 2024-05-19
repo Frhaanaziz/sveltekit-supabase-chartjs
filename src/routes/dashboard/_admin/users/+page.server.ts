@@ -5,7 +5,7 @@ import { PUBLIC_DEMO_MODE } from '$env/static/public';
 import { supabaseAdminClient as supabaseClient } from '$lib/server/supabase';
 import { roleAdmin, roleSuper } from '$lib/utils';
 import { fail } from '@sveltejs/kit';
-import type { Organization } from '../../../../types';
+import type { Organization } from '$types';
 
 export const load: PageServerLoad = async ({ locals: { supabase, getSession } }) => {
 	const session = await getSession();

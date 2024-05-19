@@ -1,6 +1,6 @@
 <script lang="ts">
+	import type { Organization } from '$types';
 	import SvelteTable, { type TableColumns } from 'svelte-table';
-	import type { Organization } from '../../../types';
 	import TableActions from './TableActions.svelte';
 	import TimeInTable from './TimeInTable.svelte';
 	export let orgs: Organization[];
