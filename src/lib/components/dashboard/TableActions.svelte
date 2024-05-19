@@ -7,7 +7,7 @@
 		RotateCwIcon,
 		TrashIcon
 	} from 'svelte-feather-icons';
-	import Confirm from './Confirm.svelte';
+	import ConfirmModal from './ConfirmModal.svelte';
 
 	export let row: any;
 	export let onAction: any;
@@ -61,7 +61,7 @@
 	{/if}
 
 	{#if actions.includes('delete')}
-		<Confirm let:confirm={confirmThis} confirmTitle="DELETE" cancelTitle="CANCEL">
+		<ConfirmModal let:confirm={confirmThis} confirmTitle="DELETE" cancelTitle="CANCEL">
 			<button
 				on:click|preventDefault={() => confirmThis(onAction, { action: 'delete', row })}
 				class="btn btn-sm btn-circle btn-ghost btn-error"
@@ -71,6 +71,6 @@
 
 			<span slot="title"> Delete this item? </span>
 			<span slot="description"> You won't be able to revert this! </span>
-		</Confirm>
+		</ConfirmModal>
 	{/if}
 </div>
