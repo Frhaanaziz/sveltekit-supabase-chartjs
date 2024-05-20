@@ -1,9 +1,5 @@
 {
 	"editor.formatOnSave": true,
-	"editor.codeActionsOnSave": {
-		"source.organizeImports": "explicit"
-	},
-	"svg.preview.background": "editor",
 	"[svelte]": {
 		"editor.defaultFormatter": "svelte.svelte-vscode"
 	}
