@@ -47,22 +47,28 @@ export type Database = {
       }
       profiles: {
         Row: {
+          avatar: string | null
           created_at: string
           email: string
           id: string
           name: string
+          org_id: string | null
         }
         Insert: {
+          avatar?: string | null
           created_at?: string
           email: string
           id: string
           name: string
+          org_id?: string | null
         }
         Update: {
+          avatar?: string | null
           created_at?: string
           email?: string
           id?: string
           name?: string
+          org_id?: string | null
         }
         Relationships: [
           {
@@ -70,6 +76,13 @@ export type Database = {
             columns: ["id"]
             isOneToOne: true
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profiles_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "orgs"
             referencedColumns: ["id"]
           },
         ]
