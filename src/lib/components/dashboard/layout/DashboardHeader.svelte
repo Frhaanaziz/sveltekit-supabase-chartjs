@@ -1,10 +1,9 @@
 <script lang="ts">
-	import type { Session, User } from '@supabase/supabase-js';
+	import type { User } from '@supabase/supabase-js';
 	import { getContext } from 'svelte';
 	import { BellIcon, ChevronDownIcon, LogOutIcon, MenuIcon, UserIcon } from 'svelte-feather-icons';
 
-	const session = getContext('session') as Session;
-	const user = session.user;
+	const user = getContext('user') as User;
 </script>
 
 <div
