@@ -35,14 +35,14 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	if (event.url.pathname.startsWith('/dashboard/_admin')) {
 		if (!imAdmin(session?.user)) {
-			console.log('You are not ADMIN!');
+			console.info('You are not ADMIN!');
 			throw redirect(303, '/dashboard');
 		}
 	}
 
 	if (event.url.pathname.startsWith('/dashboard/_super')) {
 		if (!imSuper(session?.user)) {
-			console.log('You are not SUPER!');
+			console.info('You are not SUPER!');
 			throw redirect(303, '/dashboard');
 		}
 	}
@@ -58,8 +58,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 		}
 	});
 
-	// LOG EVENTS HERE
-	// console.log(event)
 	if (import.meta.env.DEV) {
 		// DISCARD LOCALHOST EVENTS
 		if (event.url.toString().startsWith('http://localhost')) {

@@ -140,7 +140,6 @@ export const actions: Actions = {
 		if (id) {
 			const res = await supabaseClient.auth.admin.deleteUser(id);
 			if (res.error) {
-				// console.log(res)
 				return fail(400, { error: res.error.message });
 			}
 		} else {

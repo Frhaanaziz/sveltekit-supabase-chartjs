@@ -8,10 +8,8 @@ export const load: PageServerLoad = async ({ locals: { supabase, getSession } })
 		sortBy: { column: 'name', order: 'asc' }
 	});
 
-	if (res.error) {
-		fail(400, { error: 'something went wrong!' });
-	}
-	console.log(res.data);
+	if (res.error) fail(400, { error: 'something went wrong!' });
+
 	const files = res.data?.filter((x) => x.id);
 	return { files };
 };

@@ -4,7 +4,6 @@
 
 	/** @type {import('./$types').PageData} */
 	export let data;
-	// console.log(data);
 
 	const user = data.session?.user;
 	const pathname = $page.url.pathname;

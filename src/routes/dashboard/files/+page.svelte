@@ -11,7 +11,6 @@
 	const pathname = $page.url.pathname;
 
 	const handleUpload = async (event: any) => {
-		console.log(event.target.files);
 		const file = event.target.files[0];
 
 		const res = await data.supabase.storage.from('TEST').upload('TEST/' + file.name, file);

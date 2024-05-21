@@ -28,7 +28,6 @@
 			loading = true;
 			return async ({ result, update }) => {
 				update();
-				// console.log(result);
 				if (result.type == 'failure') {
 					loading = false;
 				}

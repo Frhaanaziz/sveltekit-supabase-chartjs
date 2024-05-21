@@ -15,8 +15,6 @@ export const actions: Actions = {
 			data: { name: user_name }
 		});
 
-		if (res.error) {
-			console.log(res.error);
-		}
+		if (res.error) console.error(res.error);
 	}
 };
