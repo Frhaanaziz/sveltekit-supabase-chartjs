@@ -11,9 +11,10 @@
 <input type="checkbox" id="alert_modal" class="modal-toggle" bind:checked={isModalOpen} />
 <div class="modal" role="dialog" class:modal-open={isModalOpen}>
 	<div class="modal-box block">
-		<form method="alert_modal">
-			<button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-		</form>
+		<button
+			class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+			on:click={() => (isModalOpen = false)}>✕</button
+		>
 
 		<span class="text-xl font-semibold">Are you absolutely sure?</span>
 		<p class="text-wrap mt-5 mb-8">
