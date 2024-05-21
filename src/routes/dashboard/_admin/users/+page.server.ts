@@ -1,88 +1,137 @@
-import type { User } from '@supabase/supabase-js';
 import type { Actions, PageServerLoad } from './$types';
-
-import { PUBLIC_DEMO_MODE } from '$env/static/public';
 import { supabaseAdminClient as supabaseClient } from '$lib/server/supabase';
-import { roleAdmin, roleSuper } from '$lib/utils';
-import type { Organization } from '$types';
 import { fail } from '@sveltejs/kit';
+import { superValidate } from 'sveltekit-superforms/server';
+import { zod } from 'sveltekit-superforms/adapters';
+import { createUserSchema } from '$lib/validators/user';
+import type { ProfileWithOrg } from '$types';
 
-export const load: PageServerLoad = async ({ locals: { supabase, getSession } }) => {
+async function getProfilesPagination({
+	page,
+	take,
+	search
+}: {
+	page: number;
+	take: number;
+	search: string;
+}) {
+	const { count: totalRow, error } = await supabaseClient
+		.from('profiles')
+		.select('*', { count: 'exact', head: true });
+	if (totalRow === null || error) {
+		console.error('Failed to get count', error);
+		return { error: 'Failed to get count' };
+	}
+
+	const savePage = page < 1 ? 1 : page;
+	const rowsPerPage = take;
+	const totalPages = Math.ceil(totalRow / rowsPerPage) || 1;
+	const isFirstPage = savePage === 1;
+	const isLastPage = savePage >= totalPages;
+	const previousPage = isFirstPage ? 1 : savePage - 1;
+	const nextPage = isLastPage ? totalPages : savePage + 1;
+
+	const rangeFrom = (savePage - 1) * rowsPerPage;
+	const rangeTo = savePage * rowsPerPage - 1;
+
+	let profiles;
+	if (search) {
+		const profilesRes = await supabaseClient
+			.from('profiles')
+			.select('*, org_id(*)')
+			.range(rangeFrom, rangeTo)
+			.textSearch('name', `'${search}'`);
+		if (!profilesRes.data) return { error: 'Failed to get profiles' };
+		profiles = profilesRes.data;
+	} else {
+		const profilesRes = await supabaseClient
+			.from('profiles')
+			.select('*, org_id(*)')
+			.range(rangeFrom, rangeTo);
+		if (!profilesRes.data) return { error: 'Failed to get profiles' };
+		profiles = profilesRes.data;
+	}
+
+	return {
+		currentPage: page,
+		isFirstPage,
+		isLastPage,
+		previousPage,
+		nextPage,
+		rowsPerPage,
+		totalPages,
+		totalRow,
+		content: profiles as unknown as ProfileWithOrg[]
+	};
+}
+
+export const load: PageServerLoad = async (event) => {
+	const {
+		url: { searchParams },
+		locals: { supabase, getSession }
+	} = event;
 	const session = await getSession();
 	if (!session) return fail(401, { error: 'Unauthorized' });
 
-	const org = session?.user.app_metadata.org;
+	const page = Number(searchParams.get('page')) || 1;
+	const take = Number(searchParams.get('take')) || 10;
+	const search = searchParams.get('search') || '';
+	const profilesData = await getProfilesPagination({ page, take, search });
+	if (typeof profilesData === 'object' && 'error' in profilesData)
+		return fail(400, { error: 'Failed to get profiles' });
 
-	const res = await supabaseClient.auth.admin.listUsers();
-	let users: User[] = [];
-	let orgs: Pick<Organization, 'id' | 'name'>[] = [];
-	// console.log(session.user)
-	if (roleAdmin(session)) {
-		users = res.data.users;
-
-		const r = await supabase.from('orgs').select('id,name');
-		if (!r.data) {
-			console.error('No orgs found', r.error);
-			return fail(400, { error: 'No orgs found' });
-		}
-
-		orgs = r.data;
-		// console.log(orgs)
-
-		// ONLY GET ORGS FROM ALREADY CREATED USERS
-		// orgs = users.map(x => x.app_metadata.org.name);
-		// // console.log(orgs)
-		// orgs = orgs.filter((x, i, a) => a.indexOf(x) == i)
-		// orgs = orgs.filter((x) => x)
-		// // console.log(orgs)
-	} else {
-		users = res.data.users.filter((user) => user.app_metadata.org.id == org.id);
+	const orgsRes = await supabase.from('orgs').select('id,name');
+	if (!orgsRes.data) {
+		console.error('No orgs found', orgsRes.error);
+		return fail(400, { error: 'No orgs found' });
 	}
-	return { users, orgs };
+	const orgs = orgsRes.data;
+
+	const form = await superValidate(event, zod(createUserSchema));
+
+	return { profilesData, orgs, form };
 };
 
 export const actions: Actions = {
-	create: async ({ request, locals: { getSession } }) => {
+	createUser: async ({ request, locals: { getSession } }) => {
 		const session = await getSession();
 		if (!session) return fail(401, { error: 'Unauthorized' });
 
-		const form_data = await request.formData();
-		const email = form_data.get('email')?.toString();
-		const role = form_data.get('role')?.toString();
-		const password = form_data.get('password')?.toString();
-
-		let org: Pick<Organization, 'id' | 'name'> | undefined;
-
-		if (roleSuper(session)) {
-			const tmp = JSON.parse(form_data.get('org')?.toString() ?? '');
-			org = { id: tmp.id, name: tmp.name };
-		} else {
-			if (role == 'super') return fail(400, { error: 'You are kidding me?' });
-			org = session?.user.app_metadata.org;
+		const formData = Object.fromEntries(await request.formData());
+		const form = await superValidate(formData, zod(createUserSchema));
+		if (!form.valid) {
+			console.error('Invalid data', form);
+			return fail(400, { error: 'Invalid data', form });
 		}
 
-		// console.log(session)
+		const { name, password, email, org_id, role } = form.data;
 
-		const res = await supabaseClient.auth.admin.createUser({
+		const { data: org } = await supabaseClient.from('orgs').select().eq('id', org_id).single();
+		if (!org) return fail(400, { error: 'Invalid org' });
+
+		const createUserRes = await supabaseClient.auth.admin.createUser({
 			email,
 			password,
-			app_metadata: { org, role },
+			app_metadata: { name, role, org },
 			email_confirm: true
 		});
-
-		if (res.error) {
-			console.error('Failed to create user', res.error);
-			return fail(400, { error: res.error.message });
+		if (createUserRes.error) {
+			console.error('Failed to create user', createUserRes.error);
+			return fail(400, { error: createUserRes.error.message });
 		}
 
-		return { success: 'User created succesfully' };
+		const createProfileRes = await supabaseClient
+			.from('profiles')
+			.insert({ id: createUserRes.data.user.id, email, name, org_id, role });
+		if (createProfileRes.error) {
+			console.error('Failed to create user profile', createProfileRes.error);
+			return fail(400, { error: createProfileRes.error.message });
+		}
+
+		return { success: 'User created succesfully', form };
 	},
 
 	delete: async ({ request }) => {
-		if (PUBLIC_DEMO_MODE == 'true') {
-			return fail(400, { error: 'USER DELETION DISABLED IN DEMO MODE!' });
-		}
-
 		const form_data = await request.formData();
 		const id = form_data.get('id')?.toString();
 
@@ -97,6 +146,7 @@ export const actions: Actions = {
 		} else {
 			return fail(400, { error: 'Invalid data' });
 		}
+
 		return { success: 'User deleted succesfully' };
 	}
 };
