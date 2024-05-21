@@ -39,10 +39,7 @@ export const load: PageServerLoad = async (event) => {
 };
 
 export const actions: Actions = {
-	updateUser: async ({ request, locals: { getSession, supabase } }) => {
-		const session = await getSession();
-		if (!session) return fail(401, { error: 'Unauthorized' });
-
+	updateUser: async ({ request, locals: { supabase } }) => {
 		const formData = Object.fromEntries(await request.formData());
 		const form = await superValidate(formData, zod(updateUserSchema));
 		if (!form.valid) {

@@ -1,44 +1,42 @@
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ locals: { getSession } }) => {
-	const session = await getSession();
-	const user = session?.user;
+export const load: PageServerLoad = async ({ locals: { getUser } }) => {
+	const user = await getUser();
+	if (!user) return fail(401, { error: 'Unauthorized' });
+
 	return user;
 };
 
 export const actions: Actions = {
-	save: async ({ request, locals: { supabase, getSession } }) => {
-		const session = await getSession();
-		if (!session) return fail(401, { error: 'Unauthorized' });
-
-		const user = session.user;
+	save: async ({ request, locals: { supabase, getUser } }) => {
+		const user = await getUser();
+		if (!user) return fail(401, { error: 'Unauthorized' });
 
 		const form_data = await request.formData();
 		const org = String(form_data.get('org')?.toString());
 
-		let res;
-		res = await supabase
+		const orgRes = await supabase
 			.from('orgs')
 			.upsert({ name: org, created_by: user.id })
 			.select('id')
 			.single();
-		if (res.error) {
-			if (res.error.code == '23505')
+		if (orgRes.error) {
+			if (orgRes.error.code == '23505')
 				return fail(400, { error: 'Organization name already exists!' });
-			else return fail(400, { error: res.error.details });
+			else return fail(400, { error: orgRes.error.details });
 		}
 
-		res = await supabase.auth.admin.updateUserById(session?.user.id ?? '', {
-			app_metadata: { org: { id: res.data.id, name: org }, role: 'admin' }
+		const userRes = await supabase.auth.admin.updateUserById(user.id, {
+			app_metadata: { org: { id: orgRes.data.id, name: org }, role: 'admin' }
 		});
-
-		if (res.error) {
-			return fail(400, { error: res.error });
+		if (userRes.error) {
+			console.error('Failed to update user', userRes.error);
+			return fail(400, { error: userRes.error.message });
 		}
 
 		// REFRESH SESSION
-		res = await supabase.auth.getSession();
+		await supabase.auth.refreshSession();
 
 		return { success: 'Organization created succesfully' };
 	}
