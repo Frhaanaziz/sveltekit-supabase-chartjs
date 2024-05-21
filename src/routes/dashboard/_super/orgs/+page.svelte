@@ -68,7 +68,7 @@
 	</DashboardPage>
 {:else if view == 'add'}
 	<DashboardPage {pathname}>
-		<span slot="title">Add organization</span>>
+		<span slot="title">Add organization</span>
 		<!-- <button
 				on:click={() => {
 					view = 'home';
