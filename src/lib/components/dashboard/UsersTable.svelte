@@ -7,7 +7,6 @@
 	import type { PaginatedProfiles, ProfileWithOrg } from '$types';
 	import { PlusIcon } from 'svelte-feather-icons';
 	import Pagination from './Pagination.svelte';
-	import TableSearchInput from './TableSearchInput.svelte';
 
 	export let profilesData: PaginatedProfiles;
 	export let pathname: string;
@@ -60,7 +59,9 @@
 </script>
 
 <div class="flex items-center mb-5">
-	<!-- <TableSearchInput {pathname} /> -->
+	<p class="text-lg font-semibold">
+		Total Users <span class="text-primary font-bold">({paginationUtils.totalRow})</span>
+	</p>
 
 	<div class="tooltip ml-auto" data-tip="Create user">
 		<label for="add_user_modal" class="btn btn-outline btn-square btn-sm">
