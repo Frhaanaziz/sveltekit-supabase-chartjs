@@ -17,9 +17,6 @@ dependencies:
   chartjs-adapter-date-fns:
     specifier: ^3.0.0
     version: 3.0.0(chart.js@4.4.3)(date-fns@3.6.0)
-  date-fns:
-    specifier: ^3.6.0
-    version: 3.6.0
   svelte-chartjs:
     specifier: ^3.1.5
     version: 3.1.5(chart.js@4.4.3)(svelte@4.2.17)
@@ -29,9 +26,6 @@ dependencies:
   svelte-markdown:
     specifier: ^0.4.1
     version: 0.4.1(svelte@4.2.17)
-  svelte-select:
-    specifier: ^5.8.3
-    version: 5.8.3
   svelte-table:
     specifier: ^0.6.3
     version: 0.6.3
@@ -67,9 +61,6 @@ devDependencies:
   daisyui:
     specifier: ^4.11.1
     version: 4.11.1(postcss@8.4.38)
-  dayjs:
-    specifier: ^1.11.11
-    version: 1.11.11
   eslint:
     specifier: ^9.3.0
     version: 9.3.0
@@ -103,9 +94,6 @@ devDependencies:
   svelte-loading-spinners:
     specifier: ^0.3.6
     version: 0.3.6
-  svelte-time:
-    specifier: ^0.9.0
-    version: 0.9.0
   sveltekit-superforms:
     specifier: ^2.13.1
     version: 2.13.1(@sveltejs/kit@2.5.9)(@types/json-schema@7.0.15)(esbuild-runner@2.2.2)(esbuild@0.21.3)(svelte@4.2.17)
@@ -587,23 +575,6 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
-
-  /@floating-ui/core@1.6.2:
-    resolution: {integrity: sha512-+2XpQV9LLZeanU4ZevzRnGFg2neDeKHgFLjP6YLW+tly0IvrhqT4u8enLGjLH3qeh85g19xY5rsAusfwTdn5lg==}
-    dependencies:
-      '@floating-ui/utils': 0.2.2
-    dev: false
-
-  /@floating-ui/dom@1.6.5:
-    resolution: {integrity: sha512-Nsdud2X65Dz+1RHjAIP0t8z5e2ff/IRbei6BqFrl1urT8sDVzM1HMQ+R0XcU5ceRfyO3I6ayeqIfh+6Wb8LGTw==}
-    dependencies:
-      '@floating-ui/core': 1.6.2
-      '@floating-ui/utils': 0.2.2
-    dev: false
-
-  /@floating-ui/utils@0.2.2:
-    resolution: {integrity: sha512-J4yDIIthosAsRZ5CPYP/jQvUAQtlZTTD/4suA08/FEnlxqW3sKS9iAhgsa9VYLZ6vDHn/ixJgIqRQPotoBjxIw==}
-    dev: false
 
   /@gcornut/valibot-json-schema@0.0.27(@types/json-schema@7.0.15)(esbuild-runner@2.2.2)(esbuild@0.21.3)(valibot@0.30.0):
     resolution: {integrity: sha512-xcMaUStVgQzPrK3d7PuLFbQ+3qSp6LzaLExAm52E3FKmUfjQa7Sw5cDK6Hfu/8WT0yfGsuSCuJ5uT1sosjR9Qg==}
@@ -1629,7 +1600,9 @@ packages:
 
   /dayjs@1.11.11:
     resolution: {integrity: sha512-okzr3f11N6WuqYtZSvm+F776mB41wRZMhKP+hc34YdW+KmtYYK9iqvHSwo2k9FEH3fhGXvOPV6yz2IcSrfRUDg==}
+    requiresBuild: true
     dev: true
+    optional: true
 
   /debug@4.3.4:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -3201,13 +3174,6 @@ packages:
       svelte: 3.59.2
     dev: true
 
-  /svelte-floating-ui@1.5.8:
-    resolution: {integrity: sha512-dVvJhZ2bT+kQDHlE4Lep8t+sgEc0XD96fXLzAi2DDI2bsaegBbClxXVNMma0C2WsG+n9GJSYx292dTvA8CYRtw==}
-    dependencies:
-      '@floating-ui/core': 1.6.2
-      '@floating-ui/dom': 1.6.5
-    dev: false
-
   /svelte-french-toast@1.2.0(svelte@4.2.17):
     resolution: {integrity: sha512-5PW+6RFX3xQPbR44CngYAP1Sd9oCq9P2FOox4FZffzJuZI2mHOB7q5gJBVnOiLF5y3moVGZ7u2bYt7+yPAgcEQ==}
     peerDependencies:
@@ -3288,21 +3254,9 @@ packages:
       typescript: 5.4.5
     dev: true
 
-  /svelte-select@5.8.3:
-    resolution: {integrity: sha512-nQsvflWmTCOZjssdrNptzfD1Ok45hHVMTL5IHay5DINk7dfu5Er+8KsVJnZMJdSircqtR0YlT4YkCFlxOUhVPA==}
-    dependencies:
-      svelte-floating-ui: 1.5.8
-    dev: false
-
   /svelte-table@0.6.3:
     resolution: {integrity: sha512-hRupgSslAiN4c+6xF2/amA5jlcrHG6qsmFNy0o9AEqSlaQTidEyKynQIJKnVVpyCxJESz4NTJ4/fxdHvQdIOtg==}
     dev: false
-
-  /svelte-time@0.9.0:
-    resolution: {integrity: sha512-XLEflTNZCjJM2ltCJL0NTpN9J2KBZXxupfl9S2sRFx+utSuQXbs3YIM14DIuENsjG1Qn5NtzRb0gviIB7lCMxQ==}
-    dependencies:
-      dayjs: 1.11.11
-    dev: true
 
   /svelte-writable-derived@3.1.1(svelte@4.2.17):
     resolution: {integrity: sha512-w4LR6/bYZEuCs7SGr+M54oipk/UQKtiMadyOhW0PTwAtJ/Ai12QS77sLngEcfBx2q4H8ZBQucc9ktSA5sUGZWw==}
