@@ -3,11 +3,9 @@ import { AuthApiError } from '@supabase/supabase-js';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ locals: { getSession } }) => {
-	const session = await getSession();
-	if (session?.user) {
-		throw redirect(303, '/dashboard');
-	}
+export const load: PageServerLoad = async ({ locals: { getUser } }) => {
+	const user = await getUser();
+	if (user) redirect(303, '/dashboard');
 };
 
 export const actions: Actions = {
@@ -40,9 +38,9 @@ export const actions: Actions = {
 		}
 
 		if (to) {
-			throw redirect(303, to);
+			redirect(303, to);
 		} else {
-			throw redirect(303, '/dashboard');
+			redirect(303, '/dashboard');
 		}
 	},
 
@@ -75,7 +73,7 @@ export const actions: Actions = {
 			await supabase.from('profiles').insert([{ id: user.id, email, name: 'New User' }]);
 		}
 
-		throw redirect(303, '/dashboard/startup');
+		redirect(303, '/dashboard/startup');
 	},
 
 	forgot: async ({ request, locals: { supabase } }) => {
@@ -121,11 +119,11 @@ export const actions: Actions = {
 			});
 		}
 
-		throw redirect(303, '/dashboard');
+		redirect(303, '/dashboard');
 	},
 
 	signout: async ({ locals: { supabase } }) => {
 		await supabase.auth.signOut();
-		throw redirect(303, '/');
+		redirect(303, '/');
 	}
 };
