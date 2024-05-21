@@ -1,35 +1,108 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import DashboardPage from '$lib/components/dashboard/DashboardPage.svelte';
-	import UsersTable from '$lib/components/dashboard/UsersTable.svelte';
 	import type { ActionData, PageData } from './$types';
 	import { superForm as superFormApi } from 'sveltekit-superforms/client';
 	import CreateUserForm from '$lib/components/forms/CreateUserForm.svelte';
 	import { createUserSchema } from '$lib/validators/user';
 	import { zod } from 'sveltekit-superforms/adapters';
+	import RoleBadge from '$lib/components/dashboard/RoleBadge.svelte';
+	import UserTableAction from '$lib/components/dashboard/UserTableAction.svelte';
+	import type { ProfileWithOrg } from '$types';
+	import type { TableColumns } from 'svelte-table';
+	import { ColumnsIcon, PlusIcon } from 'svelte-feather-icons';
+	import SvelteTable from 'svelte-table';
+	import Pagination from '$lib/components/dashboard/Pagination.svelte';
+	import RelativeDate from '$lib/components/dashboard/RelativeDate.svelte';
 
 	export let data: PageData;
 	export let form: ActionData;
 
+	const pathname = $page.url.pathname;
 	const orgs = data.orgs;
-	const profilesData = data.profilesData;
-	const session = data.session;
-	if (!orgs || !profilesData || !session) throw new Error('Missing data');
-	const superForm = superFormApi(data.form, {
+	$: profilesData = data.profilesData;
+	let isModalOpen = false;
+
+	const superForm = superFormApi(data.form!, {
 		validators: zod(createUserSchema)
 	});
 
-	const pathname = $page.url.pathname;
-	let isModalOpen = false;
+	const columns = [
+		{
+			key: 'name',
+			title: 'Name',
+			value: (v) => v.name,
+			sortable: true
+		},
+		{
+			key: 'email',
+			title: 'Email',
+			value: (v) => v.email,
+			sortable: true
+		},
+		{
+			key: 'role',
+			title: 'Role',
+			value: (v) => v.role,
+			renderComponent: RoleBadge,
+			sortable: true
+		},
+		{
+			key: 'org',
+			title: 'Organization',
+			value: (v) => v.org_id?.name ?? '',
+			sortable: true
+		},
+		{
+			key: 'created',
+			title: 'Created At',
+			value: (v) => v.created_at,
+			sortable: true,
+			renderComponent: {
+				component: RelativeDate,
+				props: { column: 'created_at' }
+			}
+		},
+		{
+			key: 'actions',
+			title: 'Actions',
+			renderComponent: {
+				component: UserTableAction
+			}
+		}
+	] satisfies TableColumns<ProfileWithOrg>;
 </script>
 
-<DashboardPage {pathname}>
-	<span slot="title">Users</span>
+{#if profilesData}
+	<DashboardPage {pathname}>
+		<span slot="title">Users</span>
 
-	<div slot="content" class="bg-base-100 p-5 rounded">
-		<UsersTable {profilesData} {pathname} />
-	</div>
-</DashboardPage>
+		<div slot="content" class="bg-base-100 p-5 rounded">
+			<div class="flex items-center mb-5">
+				<p class="text-lg font-semibold">
+					Total Users <span class="text-primary font-bold">({profilesData.totalRow})</span>
+				</p>
+
+				<div class="tooltip ml-auto" data-tip="Create user">
+					<label for="add_user_modal" class="btn btn-outline btn-square btn-sm">
+						<PlusIcon class="w-4 h-4" />
+					</label>
+				</div>
+			</div>
+
+			<SvelteTable
+				{columns}
+				rows={profilesData.content}
+				classNameTable={'table divide-y'}
+				classNameTbody={'divide-y'}
+			/>
+
+			<div class="w-full mt-7">
+				<Pagination {...profilesData} {pathname} />
+			</div>
+		</div>
+	</DashboardPage>
+{/if}
 
 <input type="checkbox" id="add_user_modal" class="modal-toggle" bind:checked={isModalOpen} />
 <div class="modal" role="dialog" class:modal-open={isModalOpen}>
@@ -42,7 +115,6 @@
 		<CreateUserForm
 			{superForm}
 			{orgs}
-			{session}
 			formAction={form}
 			on:closeModal={() => (isModalOpen = false)}
 		/>
