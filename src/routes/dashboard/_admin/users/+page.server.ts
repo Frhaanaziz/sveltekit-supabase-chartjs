@@ -5,6 +5,7 @@ import { superValidate } from 'sveltekit-superforms/server';
 import { zod } from 'sveltekit-superforms/adapters';
 import { createUserSchema } from '$lib/validators/user';
 import type { ProfileWithOrg } from '$types';
+import { calculatePagination } from '$lib/utils';
 
 async function getProfilesPagination({
 	page,
@@ -23,16 +24,10 @@ async function getProfilesPagination({
 		return { error: 'Failed to get count' };
 	}
 
-	const savePage = page < 1 ? 1 : page;
-	const rowsPerPage = take;
-	const totalPages = Math.ceil(totalRow / rowsPerPage) || 1;
-	const isFirstPage = savePage === 1;
-	const isLastPage = savePage >= totalPages;
-	const previousPage = isFirstPage ? 1 : savePage - 1;
-	const nextPage = isLastPage ? totalPages : savePage + 1;
+	const { savePage, ...restUtils } = calculatePagination({ page, take, totalRow });
 
-	const rangeFrom = (savePage - 1) * rowsPerPage;
-	const rangeTo = savePage * rowsPerPage - 1;
+	const rangeFrom = (savePage - 1) * restUtils.rowsPerPage;
+	const rangeTo = savePage * restUtils.rowsPerPage - 1;
 
 	let profiles;
 	if (search) {
@@ -40,27 +35,22 @@ async function getProfilesPagination({
 			.from('profiles')
 			.select('*, org_id(*)')
 			.range(rangeFrom, rangeTo)
-			.textSearch('name', `'${search}'`);
+			.textSearch('name', `'${search}'`)
+			.order('created_at', { ascending: false });
 		if (!profilesRes.data) return { error: 'Failed to get profiles' };
 		profiles = profilesRes.data;
 	} else {
 		const profilesRes = await supabaseClient
 			.from('profiles')
 			.select('*, org_id(*)')
-			.range(rangeFrom, rangeTo);
+			.range(rangeFrom, rangeTo)
+			.order('created_at', { ascending: false });
 		if (!profilesRes.data) return { error: 'Failed to get profiles' };
 		profiles = profilesRes.data;
 	}
 
 	return {
-		currentPage: page,
-		isFirstPage,
-		isLastPage,
-		previousPage,
-		nextPage,
-		rowsPerPage,
-		totalPages,
-		totalRow,
+		...restUtils,
 		content: profiles as unknown as ProfileWithOrg[]
 	};
 }
@@ -68,11 +58,8 @@ async function getProfilesPagination({
 export const load: PageServerLoad = async (event) => {
 	const {
 		url: { searchParams },
-		locals: { supabase, getSession }
+		locals: { supabase }
 	} = event;
-	const session = await getSession();
-	if (!session) return fail(401, { error: 'Unauthorized' });
-
 	const page = Number(searchParams.get('page')) || 1;
 	const take = Number(searchParams.get('take')) || 10;
 	const search = searchParams.get('search') || '';
@@ -93,10 +80,7 @@ export const load: PageServerLoad = async (event) => {
 };
 
 export const actions: Actions = {
-	createUser: async ({ request, locals: { getSession } }) => {
-		const session = await getSession();
-		if (!session) return fail(401, { error: 'Unauthorized' });
-
+	createUser: async ({ request }) => {
 		const formData = Object.fromEntries(await request.formData());
 		const form = await superValidate(formData, zod(createUserSchema));
 		if (!form.valid) {
@@ -107,7 +91,7 @@ export const actions: Actions = {
 		const { name, password, email, org_id, role } = form.data;
 
 		const { data: org } = await supabaseClient.from('orgs').select().eq('id', org_id).single();
-		if (!org) return fail(400, { error: 'Invalid org' });
+		if (!org) return fail(400, { error: 'Invalid org', form });
 
 		const createUserRes = await supabaseClient.auth.admin.createUser({
 			email,
@@ -117,7 +101,7 @@ export const actions: Actions = {
 		});
 		if (createUserRes.error) {
 			console.error('Failed to create user', createUserRes.error);
-			return fail(400, { error: createUserRes.error.message });
+			return fail(400, { error: createUserRes.error.message, form });
 		}
 
 		const createProfileRes = await supabaseClient
@@ -125,7 +109,7 @@ export const actions: Actions = {
 			.insert({ id: createUserRes.data.user.id, email, name, org_id, role });
 		if (createProfileRes.error) {
 			console.error('Failed to create user profile', createProfileRes.error);
-			return fail(400, { error: createProfileRes.error.message });
+			return fail(400, { error: createProfileRes.error.message, form });
 		}
 
 		return { success: 'User created succesfully', form };
