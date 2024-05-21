@@ -11,11 +11,6 @@
 					title: 'Dashboard',
 					Icon: HomeIcon,
 					href: '/dashboard'
-				},
-				{
-					title: 'Files',
-					Icon: FileIcon,
-					href: '/dashboard/files'
 				}
 			]
 		},
