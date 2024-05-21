@@ -1,7 +1,15 @@
 <script lang="ts">
 	import DashboardLayout from '$lib/components/dashboard/layout/DashboardLayout.svelte';
-	import { onMount } from 'svelte';
+	import { onMount, setContext } from 'svelte';
 	import { themeChange } from 'theme-change';
+	import type { LayoutData } from '../$types';
+
+	export let data: LayoutData;
+
+	const session = data.session;
+	if (!session) throw new Error('No session data provided to layout');
+
+	setContext('session', session);
 
 	// NOTE: the element that is using one of the theme attributes must be in the DOM on mount
 	onMount(() => {
