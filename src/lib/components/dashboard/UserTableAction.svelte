@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { User } from '@supabase/supabase-js';
 	import AlertModal from '../modals/AlertModal.svelte';
-	import { invalidate } from '$app/navigation';
+	import { invalidateAll } from '$app/navigation';
 	import toast from 'svelte-french-toast';
 	import { EditIcon, TrashIcon } from 'svelte-feather-icons';
 
@@ -12,7 +12,7 @@
 			method: 'DELETE'
 		});
 
-		invalidate('/dashboard/_admin/users');
+		invalidateAll();
 		toast.success('User deleted successfully');
 	};
 </script>

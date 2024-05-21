@@ -35,6 +35,8 @@ export const actions: Actions = {
 		const { id } = form.data;
 		const updateOrgRes = await supabase.from('orgs').update(form.data).eq('id', id);
 		if (updateOrgRes.error) {
+			if (updateOrgRes.error.code == '23505')
+				return fail(400, { error: 'Organization name already exists', form });
 			console.error('Failed to update organization', updateOrgRes.error);
 			return fail(400, { error: updateOrgRes.error.message, form });
 		}

@@ -15,6 +15,7 @@
 	import { zod } from 'sveltekit-superforms/adapters';
 	import { createOrganizationSchema } from '$lib/validators/organization';
 	import OrgTableAction from '$lib/components/dashboard/OrgTableAction.svelte';
+	import RelativeDate from '$lib/components/dashboard/RelativeDate.svelte';
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -72,8 +73,11 @@
 		{
 			key: 'created_at',
 			title: 'Created at',
-			value: (v: any) => v.created_at,
-			sortable: true
+			sortable: true,
+			renderComponent: {
+				component: RelativeDate,
+				props: { column: 'created_at' }
+			}
 		},
 		{
 			key: 'delete-action',

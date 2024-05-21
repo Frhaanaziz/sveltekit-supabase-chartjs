@@ -25,7 +25,7 @@
 	}
 
 	$: {
-		if (formAction?.error) toast.error('Failed to create organization, please try again later');
+		if (formAction?.error) toast.error(formAction.error);
 		if (formAction?.success) handleSuccess();
 	}
 </script>

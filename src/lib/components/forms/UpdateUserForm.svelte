@@ -6,7 +6,7 @@
 	import FormField from './FormField.svelte';
 	import type { ActionData } from '../../../routes/dashboard/_admin/users/[id]/update/$types';
 	import toast from 'svelte-french-toast';
-	import { invalidateAll } from '$app/navigation';
+	import { invalidate } from '$app/navigation';
 
 	type UpdateUserType = z.infer<typeof updateUserSchema>;
 
@@ -73,7 +73,11 @@
 		</FormField>
 	</div>
 
-	<div class="flex justify-end pt-2">
+	<div class="flex justify-end gap-5 pt-2">
+		<a class="btn btn-error" href="/dashboard/_admin/users" class:btn-disabled={$submitting}
+			>Cancel</a
+		>
+
 		<button type="submit" class:btn-disabled={$submitting} class="btn">UPDATE USER</button>
 	</div>
 </form>

@@ -3,7 +3,6 @@
 	import type { SuperForm } from 'sveltekit-superforms/client';
 	import FormField from './FormField.svelte';
 	import toast from 'svelte-french-toast';
-	import { createEventDispatcher } from 'svelte';
 	import { invalidate } from '$app/navigation';
 	import type { updateOrganizationSchema } from '$lib/validators/organization';
 	import type { ActionData } from '../../../routes/dashboard/_super/orgs/[id]/update/$types';
@@ -15,17 +14,14 @@
 
 	const { form, errors, enhance, reset, submitting } = superForm;
 
-	const dispatch = createEventDispatcher();
-
 	function handleSuccess() {
 		reset();
-		dispatch('closeModal');
 		toast.success('Organization updated successfully');
 		invalidate('/dashboard/_super/orgs');
 	}
 
 	$: {
-		if (formAction?.error) toast.error('Failed to update organization, please try again later');
+		if (formAction?.error) toast.error(formAction.error);
 		if (formAction?.success) handleSuccess();
 	}
 </script>
@@ -42,10 +38,8 @@
 	</FormField>
 
 	<div class="flex justify-end pt-2 gap-5">
-		<button
-			class="btn btn-error"
-			class:btn-disabled={$submitting}
-			on:click|preventDefault={() => dispatch('closeModal')}>Cancel</button
+		<a href="/dashboard/_super/orgs" class="btn btn-error" class:btn-disabled={$submitting}
+			>Cancel</a
 		>
 
 		<button type="submit" class:btn-disabled={$submitting} class="btn">Update</button>
