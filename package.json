@@ -19,6 +19,7 @@
 	"devDependencies": {
 		"@playwright/test": "^1.44.0",
 		"@sveltejs/adapter-auto": "^3.2.0",
+		"@sveltejs/adapter-node": "^5.0.1",
 		"@sveltejs/kit": "^2.5.9",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@tailwindcss/typography": "^0.5.13",
@@ -52,6 +53,7 @@
 		"@supabase/supabase-js": "^2.43.2",
 		"chart.js": "^4.4.3",
 		"chartjs-adapter-date-fns": "^3.0.0",
+		"dotenv": "^16.4.5",
 		"svelte-chartjs": "^3.1.5",
 		"svelte-french-toast": "^1.2.0",
 		"svelte-markdown": "^0.4.1",
