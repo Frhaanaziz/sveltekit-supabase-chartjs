@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { navigating } from '$app/stores';
 	import { FileIcon, HomeIcon, Share2Icon, UsersIcon } from 'svelte-feather-icons';
-	import { Jumper } from 'svelte-loading-spinners';
 	import DashboardHeader from './DashboardHeader.svelte';
 	import DashboardSidebar from './DashboardSidebar.svelte';
 
