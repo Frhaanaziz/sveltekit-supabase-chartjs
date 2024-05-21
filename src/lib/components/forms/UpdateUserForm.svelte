@@ -19,7 +19,7 @@
 	async function handleSuccess() {
 		reset();
 		toast.success('User updated successfully');
-		await invalidateAll();
+		invalidate('/dashboard/_admin/users');
 	}
 
 	$: {
