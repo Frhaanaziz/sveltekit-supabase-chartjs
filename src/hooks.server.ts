@@ -23,27 +23,34 @@ export const handle: Handle = async ({ event, resolve }) => {
 		return session;
 	};
 
+	event.locals.getUser = async () => {
+		const {
+			data: { user }
+		} = await event.locals.supabase.auth.getUser();
+		return user;
+	};
+
 	// PROTECT ROUTES
-	const session = await event.locals.getSession();
+	const user = await event.locals.getUser();
 
 	if (event.url.pathname.startsWith('/dashboard')) {
-		if (!session) {
+		if (!user) {
 			// the user is not signed in
-			throw redirect(303, '/');
+			redirect(303, '/');
 		}
 	}
 
 	if (event.url.pathname.startsWith('/dashboard/_admin')) {
-		if (!imAdmin(session?.user)) {
+		if (!imAdmin(user)) {
 			console.info('You are not ADMIN!');
-			throw redirect(303, '/dashboard');
+			// redirect(303, '/dashboard');
 		}
 	}
 
 	if (event.url.pathname.startsWith('/dashboard/_super')) {
-		if (!imSuper(session?.user)) {
+		if (!imSuper(user)) {
 			console.info('You are not SUPER!');
-			throw redirect(303, '/dashboard');
+			redirect(303, '/dashboard');
 		}
 	}
 
