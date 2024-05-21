@@ -63,8 +63,10 @@ export const actions: Actions = {
 
 		const { name } = form.data;
 		const res = await supabase.from('orgs').insert({ name, created_by: user.id });
-
 		if (res.error) {
+			if (res.error.code === '23505')
+				return fail(400, { error: 'Organization name already exists', form });
+
 			console.error('Failed to create organization', res.error);
 			return fail(400, { error: res.error.message, form });
 		}
