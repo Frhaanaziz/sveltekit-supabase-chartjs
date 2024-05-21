@@ -69,8 +69,11 @@
 				<TrashIcon class="stroke-error" />
 			</button>
 
-			<span slot="title"> Delete this item? </span>
-			<span slot="description"> You won't be able to revert this! </span>
+			<span slot="title">Are you absolutely sure?</span>
+			<p slot="description">
+				This action cannot be undone. This will permanently delete the item and remove the
+				associated data from our servers.
+			</p>
 		</ConfirmModal>
 	{/if}
 </div>
