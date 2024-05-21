@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto, invalidateAll } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import { SearchIcon } from 'svelte-feather-icons';
 
 	export let pathname: string;
