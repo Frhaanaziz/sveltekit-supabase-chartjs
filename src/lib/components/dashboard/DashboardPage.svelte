@@ -17,7 +17,7 @@
 				<slot name="title" />
 			</span>
 
-			<div class="text-sm breadcrumbs">
+			<div class="text-sm breadcrumbs sm:block hidden">
 				<ul>
 					{#each breadcrumbs as { name, path }, i}
 						<li>
