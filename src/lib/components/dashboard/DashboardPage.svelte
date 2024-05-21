@@ -5,7 +5,7 @@
 		.split('/')
 		.filter(Boolean)
 		.map((name, i, a) => ({
-			name,
+			name: name.length > 20 ? '...' : name,
 			path: '/' + a.slice(0, i + 1).join('/')
 		}));
 </script>
