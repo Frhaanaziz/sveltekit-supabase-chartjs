@@ -8,10 +8,8 @@ import { supabaseAdminClient } from '$lib/server/supabase';
 export const load: PageServerLoad = async (event) => {
 	const {
 		params: { id: userId },
-		locals: { supabase, getSession }
+		locals: { supabase }
 	} = event;
-	const session = await getSession();
-	if (!session) return fail(401, { error: 'Unauthorized' });
 
 	const [orgsRes, profileRes] = await Promise.all([
 		supabase.from('orgs').select('id,name'),
@@ -37,7 +35,7 @@ export const load: PageServerLoad = async (event) => {
 		zod(updateUserSchema)
 	);
 
-	return { orgs, form };
+	return { orgs, form, profile };
 };
 
 export const actions: Actions = {
