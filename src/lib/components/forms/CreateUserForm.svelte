@@ -1,32 +1,29 @@
 <script lang="ts">
-	import { roleSuper } from '$lib/utils';
 	import type { createUserSchema } from '$lib/validators/user';
 	import type { Organization } from '$types';
-	import type { Session } from '@supabase/supabase-js';
 	import type { z } from 'zod';
 	import type { SuperForm } from 'sveltekit-superforms/client';
 	import FormField from './FormField.svelte';
 	import type { ActionData } from '../../../routes/dashboard/_admin/users/$types';
 	import toast from 'svelte-french-toast';
 	import { createEventDispatcher } from 'svelte';
-	import { invalidateAll } from '$app/navigation';
+	import { invalidate } from '$app/navigation';
 
 	type CreateUserType = z.infer<typeof createUserSchema>;
 
 	export let formAction: ActionData;
 	export let superForm: SuperForm<CreateUserType>;
-	export let session: Session;
 	export let orgs: Pick<Organization, 'id' | 'name'>[] = [];
 
 	const { form, errors, enhance, reset, submitting } = superForm;
 
 	const dispatch = createEventDispatcher();
 
-	async function handleSuccess() {
+	function handleSuccess() {
 		reset();
 		dispatch('closeModal');
 		toast.success('User created successfully');
-		await invalidateAll();
+		invalidate('/dashboard/_admin/users');
 	}
 
 	$: {
@@ -74,9 +71,7 @@
 			<select name="role" class="select select-bordered" bind:value={$form.role}>
 				<option value="user">User</option>
 				<option value="admin">Admin</option>
-				{#if roleSuper(session)}
-					<option value="super">Super</option>
-				{/if}
+				<option value="super">Super</option>
 			</select>
 		</FormField>
 	</div>
