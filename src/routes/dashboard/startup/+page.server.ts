@@ -1,4 +1,3 @@
-import { supabaseAdminClient } from '$lib/server/supabase';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -11,13 +10,17 @@ export const load: PageServerLoad = async ({ locals: { getSession } }) => {
 export const actions: Actions = {
 	save: async ({ request, locals: { supabase, getSession } }) => {
 		const session = await getSession();
+		if (!session) return fail(401, { error: 'Unauthorized' });
+
+		const user = session.user;
+
 		const form_data = await request.formData();
-		const org = form_data.get('org')?.toString();
+		const org = String(form_data.get('org')?.toString());
 
 		let res;
 		res = await supabase
 			.from('orgs')
-			.upsert({ name: org, created_by: session?.user.email })
+			.upsert({ name: org, created_by: user.id })
 			.select('id')
 			.single();
 		if (res.error) {
@@ -26,7 +29,7 @@ export const actions: Actions = {
 			else return fail(400, { error: res.error.details });
 		}
 
-		res = await supabaseAdminClient.auth.admin.updateUserById(session?.user.id ?? '', {
+		res = await supabase.auth.admin.updateUserById(session?.user.id ?? '', {
 			app_metadata: { org: { id: res.data.id, name: org }, role: 'admin' }
 		});
 
