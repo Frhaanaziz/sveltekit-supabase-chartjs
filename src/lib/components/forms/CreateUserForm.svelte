@@ -103,7 +103,11 @@
 		</FormField>
 	</div>
 
-	<div class="flex justify-end pt-2">
+	<div class="flex justify-end pt-2 gap-5">
+		<button class="btn btn-error" on:click|preventDefault={() => dispatch('closeModal')}
+			>Cancel</button
+		>
+
 		<button type="submit" class:btn-disabled={$submitting} class="btn">ADD USER</button>
 	</div>
 </form>
