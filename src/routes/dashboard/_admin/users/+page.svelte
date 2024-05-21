@@ -34,9 +34,10 @@
 <input type="checkbox" id="add_user_modal" class="modal-toggle" bind:checked={isModalOpen} />
 <div class="modal" role="dialog" class:modal-open={isModalOpen}>
 	<div class="modal-box max-w-2xl">
-		<form method="add_user_modal">
-			<button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-		</form>
+		<button
+			class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+			on:click={() => (isModalOpen = false)}>✕</button
+		>
 
 		<CreateUserForm
 			{superForm}
