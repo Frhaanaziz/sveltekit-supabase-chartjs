@@ -1,35 +1,48 @@
 <script lang="ts">
-	import SvelteTable from 'svelte-table';
+	import SvelteTable, { type TableColumns } from 'svelte-table';
 	import RoleBadge from './RoleBadge.svelte';
-	import TableActions from './TableActions.svelte';
 	import TimeInTable from './TimeInTable.svelte';
-	export let users: Array<any>;
-	export let onAction: any | null = null;
+
+	import UserTableAction from './UserTableAction.svelte';
+	import type { PaginatedProfiles, ProfileWithOrg } from '$types';
+	import { PlusIcon } from 'svelte-feather-icons';
+	import Pagination from './Pagination.svelte';
+	import TableSearchInput from './TableSearchInput.svelte';
+
+	export let profilesData: PaginatedProfiles;
+	export let pathname: string;
+	const { content: users, ...paginationUtils } = profilesData;
 
 	const columns = [
 		{
+			key: 'name',
+			title: 'NAME',
+			value: (v) => v.name,
+			sortable: true
+		},
+		{
 			key: 'email',
 			title: 'EMAIL',
-			value: (v: any) => v.email,
+			value: (v) => v.email,
 			sortable: true
 		},
 		{
 			key: 'role',
 			title: 'ROLE',
-			value: (v: any) => v.app_metadata.role,
+			value: (v) => v.role,
 			renderComponent: RoleBadge,
 			sortable: true
 		},
 		{
 			key: 'org',
 			title: 'ORG',
-			value: (v: any) => v.app_metadata.org?.name,
+			value: (v) => v.org_id?.name ?? '',
 			sortable: true
 		},
 		{
 			key: 'created',
 			title: 'CREATED',
-			value: (v: any) => v.created_at,
+			value: (v) => v.created_at,
 			sortable: true,
 			renderComponent: {
 				component: TimeInTable,
@@ -37,29 +50,33 @@
 			}
 		},
 		{
-			key: 'last',
-			title: 'LAST SEEN',
-			value: (v: any) => v.last_sign_in_at,
-			sortable: true,
-			renderComponent: {
-				component: TimeInTable,
-				props: { field: 'last_sign_in_at', format: 'YY-MM-DD HH:mm' }
-			}
-		},
-		{
 			key: 'actions',
-			title: '',
+			title: 'Actions',
 			renderComponent: {
-				component: TableActions,
-				props: { actions: ['delete'], onAction }
+				component: UserTableAction
 			}
 		}
-	];
+	] satisfies TableColumns<ProfileWithOrg>;
 </script>
+
+<div class="flex items-center mb-5">
+	<TableSearchInput {pathname} />
+
+	<div class="tooltip ml-auto" data-tip="Create user">
+		<label for="add_user_modal" class="btn btn-outline btn-square btn-sm">
+			<PlusIcon class="w-4 h-4" />
+		</label>
+	</div>
+</div>
 
 <SvelteTable
 	{columns}
 	rows={users}
-	classNameTable={'table table-compact table-zebra'}
-	classNameThead={'bg-black'}
+	classNameTable={'table divide-y'}
+	classNameTbody={'divide-y'}
+	classNameRow=""
 />
+
+<div class="w-full mt-7">
+	<Pagination {...paginationUtils} {pathname} />
+</div>
