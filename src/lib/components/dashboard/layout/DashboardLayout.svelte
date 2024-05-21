@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { navigating } from '$app/stores';
 	import { FileIcon, HomeIcon, Share2Icon, UsersIcon } from 'svelte-feather-icons';
 	import { Jumper } from 'svelte-loading-spinners';
@@ -59,13 +59,15 @@
 			<DashboardHeader />
 
 			<main class="py-10 px-4 sm:px-6 lg:px-8 min-h-[calc(100vh-4rem)] bg-base-200">
-				{#if $navigating}
+				<slot />
+
+				<!-- {#if $navigating}
 					<div class="flex h-full items-center justify-center min-h-[calc(100vh-4rem)]">
 						<Jumper size="120" unit="px" duration="1s" color="#000" />
 					</div>
 				{:else}
 					<slot />
-				{/if}
+				{/if} -->
 			</main>
 		</div>
 	</div>
