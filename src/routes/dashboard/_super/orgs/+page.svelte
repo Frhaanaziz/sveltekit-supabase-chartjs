@@ -56,8 +56,6 @@
 		}
 	};
 
-	$: if (form?.error) toast.error('Failed to add organization, please try again');
-
 	const columns = [
 		{
 			key: 'name',
