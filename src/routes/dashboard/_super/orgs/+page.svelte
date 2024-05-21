@@ -8,7 +8,6 @@
 	import toast from 'svelte-french-toast';
 	import type { ActionData, PageData } from './$types';
 	import SvelteTable, { type TableColumns } from 'svelte-table';
-	import TableActions from '$lib/components/dashboard/TableActions.svelte';
 	import { PlusIcon } from 'svelte-feather-icons';
 	import Pagination from '$lib/components/dashboard/Pagination.svelte';
 	import CreateOrgForm from '$lib/components/forms/CreateOrgForm.svelte';

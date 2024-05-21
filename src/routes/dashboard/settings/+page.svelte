@@ -5,16 +5,12 @@
 	/** @type {import('./$types').PageData} */
 	export let data;
 
-	const user = data.session?.user;
+	const user = data.user;
 	const pathname = $page.url.pathname;
 </script>
 
 <DashboardPage {pathname}>
 	<span slot="title">Settings</span>
-	<!-- <ActionButton text="SAVE" form="edit" type="submit">
-			<span slot="icon"><SaveIcon /></span>
-		</ActionButton> -->
-
 	<span slot="content">
 		<form id="edit" class="w-full max-w-sm" method="POST" action="?/save">
 			<div class="md:flex md:items-center mb-6 form-control">

@@ -13,13 +13,13 @@
 	const handleUpload = async (event: any) => {
 		const file = event.target.files[0];
 
-		const res = await data.supabase.storage.from('TEST').upload('TEST/' + file.name, file);
+		// const res = await supabase.storage.from('TEST').upload('TEST/' + file.name, file);
 
-		if (res.error) {
-			toast.error('FILE UPLOAD ERROR!');
-		} else {
-			toast.success('File upload succesful!');
-		}
+		// if (res.error) {
+		// 	toast.error('FILE UPLOAD ERROR!');
+		// } else {
+		// 	toast.success('File upload succesful!');
+		// }
 
 		view = 'home';
 		invalidateAll();
@@ -29,14 +29,6 @@
 {#if view == 'home'}
 	<DashboardPage {pathname}>
 		<span slot="title">Files</span>
-		<!-- <ActionButton
-				text="UPLOAD"
-				onAction={() => {
-					view = 'upload';
-				}}
-			>
-				<span slot="icon"><UploadIcon /></span>
-			</ActionButton> -->
 		<span slot="content" class="w-full">
 			<FilesTable files={data.files} />
 		</span>
