@@ -60,7 +60,7 @@
 </script>
 
 <div class="flex items-center mb-5">
-	<TableSearchInput {pathname} />
+	<!-- <TableSearchInput {pathname} /> -->
 
 	<div class="tooltip ml-auto" data-tip="Create user">
 		<label for="add_user_modal" class="btn btn-outline btn-square btn-sm">
