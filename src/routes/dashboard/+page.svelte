@@ -1,11 +1,8 @@
 <script>
+	import AcquisitionStat from '$components/dashboard/AcquisitionStat.svelte';
+	import RevenueStat from '$components/dashboard/RevenueStat.svelte';
 	import StatCard from '$components/dashboard/StatCard.svelte';
-	import {
-		DollarSignIcon,
-		EyeIcon,
-		PackageIcon,
-		UsersIcon
-	} from 'svelte-feather-icons';
+	import { DollarSignIcon, EyeIcon, PackageIcon, UsersIcon } from 'svelte-feather-icons';
 
 	export const statsData = [
 		{
@@ -55,4 +52,13 @@
 			<Icon class="h-5 w-5" slot="icon" />
 		</StatCard>
 	{/each}
+</section>
+
+<section class="grid grid-cols-1 lg:grid-cols-12 mt-5 gap-5">
+	<div class="lg:col-span-7">
+		<RevenueStat />
+	</div>
+	<div class="lg:col-span-5">
+		<AcquisitionStat />
+	</div>
 </section>
