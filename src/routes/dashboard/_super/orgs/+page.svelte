@@ -2,20 +2,20 @@
 	import { applyAction, deserialize } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
 	import { page } from '$app/stores';
-	import DashboardPage from '$lib/components/dashboard/DashboardPage.svelte';
+	import DashboardPage from '$components/dashboard/DashboardPage.svelte';
 	import type { Organization } from '$types';
 	import type { ActionResult } from '@sveltejs/kit';
 	import toast from 'svelte-french-toast';
 	import type { ActionData, PageData } from './$types';
 	import SvelteTable, { type TableColumns } from 'svelte-table';
 	import { PlusIcon } from 'svelte-feather-icons';
-	import Pagination from '$lib/components/dashboard/tables/Pagination.svelte';
-	import CreateOrgForm from '$lib/components/forms/CreateOrgForm.svelte';
+	import Pagination from '$components/dashboard/tables/Pagination.svelte';
+	import CreateOrgForm from '$components/forms/CreateOrgForm.svelte';
 	import { superForm as superFormApi } from 'sveltekit-superforms/client';
 	import { zod } from 'sveltekit-superforms/adapters';
 	import { createOrganizationSchema } from '$lib/validators/organization';
-	import OrgTableAction from '$lib/components/dashboard/tables/OrgTableAction.svelte';
-	import RelativeDate from '$lib/components/dashboard/tables/RelativeDate.svelte';
+	import OrgTableAction from '$components/dashboard/tables/OrgTableAction.svelte';
+	import RelativeDate from '$components/dashboard/tables/RelativeDate.svelte';
 
 	export let data: PageData;
 	export let form: ActionData;

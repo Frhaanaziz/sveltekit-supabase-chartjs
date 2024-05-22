@@ -6,7 +6,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import { invalidate } from '$app/navigation';
 	import type { createOrganizationSchema } from '$lib/validators/organization';
-	import type { ActionData } from '../../../routes/dashboard/_super/orgs/$types';
+	import type { ActionData } from '../../routes/dashboard/_super/orgs/$types';
 
 	type CreateOrgType = z.infer<typeof createOrganizationSchema>;
 

@@ -1,12 +1,12 @@
 <script lang="ts">
-	import DashboardPage from '$lib/components/dashboard/DashboardPage.svelte';
-	import UpdateUserForm from '$lib/components/forms/UpdateUserForm.svelte';
+	import DashboardPage from '$components/dashboard/DashboardPage.svelte';
+	import UpdateUserForm from '$components/forms/UpdateUserForm.svelte';
 	import { superForm as superFormApi } from 'sveltekit-superforms/client';
 	import type { ActionData, PageData } from './$types';
 	import { zod } from 'sveltekit-superforms/adapters';
 	import { updateAvatarSchema, updateUserSchema } from '$lib/validators/user';
 	import { page } from '$app/stores';
-	import UpdateAvatarForm from '$lib/components/forms/UpdateAvatarForm.svelte';
+	import UpdateAvatarForm from '$components/forms/UpdateAvatarForm.svelte';
 	import toast from 'svelte-french-toast';
 	import { invalidateAll } from '$app/navigation';
 

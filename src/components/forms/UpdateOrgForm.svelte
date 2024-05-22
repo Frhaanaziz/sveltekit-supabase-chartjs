@@ -5,7 +5,7 @@
 	import toast from 'svelte-french-toast';
 	import { invalidate } from '$app/navigation';
 	import type { updateOrganizationSchema } from '$lib/validators/organization';
-	import type { ActionData } from '../../../routes/dashboard/_super/orgs/[id]/update/$types';
+	import type { ActionData } from '../../routes/dashboard/_super/orgs/[id]/update/$types';
 
 	type UpdateOrgType = z.infer<typeof updateOrganizationSchema>;
 

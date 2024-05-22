@@ -1,11 +1,11 @@
 <script lang="ts">
-	import DashboardPage from '$lib/components/dashboard/DashboardPage.svelte';
+	import DashboardPage from '$components/dashboard/DashboardPage.svelte';
 	import { superForm as superFormApi } from 'sveltekit-superforms/client';
 	import type { ActionData, PageData } from './$types';
 	import { zod } from 'sveltekit-superforms/adapters';
 	import { page } from '$app/stores';
 	import { updateOrganizationSchema } from '$lib/validators/organization';
-	import UpdateOrgForm from '$lib/components/forms/UpdateOrgForm.svelte';
+	import UpdateOrgForm from '$components/forms/UpdateOrgForm.svelte';
 
 	export let data: PageData;
 	export let form: ActionData;

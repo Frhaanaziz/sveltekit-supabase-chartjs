@@ -1,5 +1,5 @@
 <script>
-	import StatCard from '$lib/components/dashboard/StatCard.svelte';
+	import StatCard from '$components/dashboard/StatCard.svelte';
 	import {
 		DollarSignIcon,
 		EyeIcon,

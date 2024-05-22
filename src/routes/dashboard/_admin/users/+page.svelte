@@ -1,19 +1,19 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import DashboardPage from '$lib/components/dashboard/DashboardPage.svelte';
+	import DashboardPage from '$components/dashboard/DashboardPage.svelte';
 	import type { ActionData, PageData } from './$types';
 	import { superForm as superFormApi } from 'sveltekit-superforms/client';
-	import CreateUserForm from '$lib/components/forms/CreateUserForm.svelte';
+	import CreateUserForm from '$components/forms/CreateUserForm.svelte';
 	import { createUserSchema } from '$lib/validators/user';
 	import { zod } from 'sveltekit-superforms/adapters';
-	import RoleBadge from '$lib/components/dashboard/tables/RoleBadge.svelte';
-	import UserTableAction from '$lib/components/dashboard/tables/UserTableAction.svelte';
+	import RoleBadge from '$components/dashboard/tables/RoleBadge.svelte';
+	import UserTableAction from '$components/dashboard/tables/UserTableAction.svelte';
 	import type { ProfileWithOrg } from '$types';
 	import type { TableColumns } from 'svelte-table';
 	import { PlusIcon } from 'svelte-feather-icons';
 	import SvelteTable from 'svelte-table';
-	import Pagination from '$lib/components/dashboard/tables/Pagination.svelte';
-	import RelativeDate from '$lib/components/dashboard/tables/RelativeDate.svelte';
+	import Pagination from '$components/dashboard/tables/Pagination.svelte';
+	import RelativeDate from '$components/dashboard/tables/RelativeDate.svelte';
 
 	export let data: PageData;
 	export let form: ActionData;

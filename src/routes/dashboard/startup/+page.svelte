@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DashboardPage from '$lib/components/dashboard/DashboardPage.svelte';
+	import DashboardPage from '$components/dashboard/DashboardPage.svelte';
 	import { onMount } from 'svelte';
 
 	import { page } from '$app/stores';

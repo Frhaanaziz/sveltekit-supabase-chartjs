@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DashboardLayout from '$lib/components/dashboard/layout/DashboardLayout.svelte';
+	import DashboardLayout from '$components/dashboard/layout/DashboardLayout.svelte';
 	import { onMount, setContext } from 'svelte';
 	import { themeChange } from 'theme-change';
 	import type { LayoutData } from './$types';

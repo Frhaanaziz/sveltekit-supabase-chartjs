@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/stores';
-	import DashboardPage from '$lib/components/dashboard/DashboardPage.svelte';
+	import DashboardPage from '$components/dashboard/DashboardPage.svelte';
 
 	/** @type {import('./$types').PageData} */
 	export let data;

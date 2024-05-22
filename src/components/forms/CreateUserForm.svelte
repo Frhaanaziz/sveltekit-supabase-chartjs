@@ -4,7 +4,7 @@
 	import type { z } from 'zod';
 	import type { SuperForm } from 'sveltekit-superforms/client';
 	import FormField from './FormField.svelte';
-	import type { ActionData } from '../../../routes/dashboard/_admin/users/$types';
+	import type { ActionData } from '../../routes/dashboard/_admin/users/$types';
 	import toast from 'svelte-french-toast';
 	import { createEventDispatcher } from 'svelte';
 	import { invalidate } from '$app/navigation';
