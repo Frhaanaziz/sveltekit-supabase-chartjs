@@ -4,52 +4,44 @@
 	import { superForm as superFormApi } from 'sveltekit-superforms/client';
 	import type { ActionData, PageData } from './$types';
 	import { zod } from 'sveltekit-superforms/adapters';
-	import { updateUserSchema } from '$lib/validators/user';
+	import { updateAvatarSchema, updateUserSchema } from '$lib/validators/user';
 	import { page } from '$app/stores';
-	import type { Profile } from '$types';
-	import { TrashIcon, UploadIcon } from 'svelte-feather-icons';
+	import UpdateAvatarForm from '$lib/components/forms/UpdateAvatarForm.svelte';
+	import toast from 'svelte-french-toast';
+	import { invalidateAll } from '$app/navigation';
 
 	export let data: PageData;
 	export let form: ActionData;
-	export let profile: Profile;
+	$: profile = data.profile;
 
 	const orgs = data.orgs;
 	if (!orgs) throw new Error('Missing data');
 	const superForm = superFormApi(data.form, {
 		validators: zod(updateUserSchema)
 	});
+	const avatarSuperForm = superFormApi(data.avatarForm, {
+		validators: zod(updateAvatarSchema)
+	});
 
 	const pathname = $page.url.pathname;
+
+	$: {
+		if (form?.error) toast.error(form.error);
+		if (form?.success) {
+			toast.success('User updated successfully');
+			invalidateAll();
+		}
+	}
 </script>
 
 <DashboardPage {pathname}>
 	<span slot="title">Update user</span>
 
 	<div slot="content" class="bg-base-100 p-5 rounded">
-		<div class="flex flex-col sm:flex-row items-center gap-5">
-			<img
-				src={profile?.avatar ?? '/avatar-fallback.png'}
-				alt={profile?.name}
-				width="100"
-				height="100"
-				class="rounded"
-			/>
-			<div class="flex gap-3 flex-col">
-				<p class="text-lg font-semibold">Profile Picture</p>
-				<div class="flex items-center gap-2">
-					<button class="btn btn-xs btn-primary gap-2 rounded">
-						<UploadIcon class="w-3.5 h-3.5" />
-						Upload Image</button
-					>
-					<button class="btn btn-xs gap-2 rounded">
-						<TrashIcon class="w-3.5 h-3.5" />
-						Remove</button
-					>
-				</div>
-				<p class="text-xs">We support PNG, JPEG, JPG under 1MB</p>
-			</div>
-		</div>
+		{#if profile}
+			<UpdateAvatarForm superForm={avatarSuperForm} {profile} />
+		{/if}
 
-		<UpdateUserForm formAction={form} {superForm} {orgs} />
+		<UpdateUserForm {superForm} {orgs} />
 	</div>
 </DashboardPage>

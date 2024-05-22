@@ -1,8 +1,8 @@
 import { fail, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { superValidate } from 'sveltekit-superforms/server';
+import { superValidate, withFiles } from 'sveltekit-superforms/server';
 import { zod } from 'sveltekit-superforms/adapters';
-import { updateUserSchema } from '$lib/validators/user';
+import { updateAvatarSchema, updateUserSchema } from '$lib/validators/user';
 import { supabaseAdminClient } from '$lib/server/supabase';
 
 export const load: PageServerLoad = async (event) => {
@@ -34,8 +34,9 @@ export const load: PageServerLoad = async (event) => {
 		},
 		zod(updateUserSchema)
 	);
+	const avatarForm = await superValidate(event, zod(updateAvatarSchema));
 
-	return { orgs, form, profile };
+	return { orgs, profile, form, avatarForm };
 };
 
 export const actions: Actions = {
@@ -71,5 +72,72 @@ export const actions: Actions = {
 		await supabase.auth.refreshSession();
 
 		return { success: 'User updated succesfully', form };
+	},
+	updateAvatar: async ({ request, locals: { supabase } }) => {
+		const formData = await request.formData();
+		const form = await superValidate(formData, zod(updateAvatarSchema));
+		if (!form.valid) {
+			console.error('Invalid data', form);
+			return fail(400, { error: 'Invalid data', form });
+		}
+
+		const { id, avatar } = form.data;
+
+		const avatarExt = avatar.name.split('.').pop();
+
+		const fileRes = await supabase.storage
+			.from('avatars')
+			.upload(`${id}/avatar.${avatarExt}`, avatar, {
+				upsert: true
+			});
+		if (fileRes.error) {
+			console.error('Failed to upload avatar', fileRes.error);
+			return fail(400, { error: 'Failed to upload avatar', form: withFiles(form) });
+		}
+
+		const {
+			data: { publicUrl }
+		} = supabase.storage.from('avatars').getPublicUrl(fileRes.data.path);
+
+		const [updateProfileRes, updateUserRes] = await Promise.all([
+			await supabase.from('profiles').update({ avatar: publicUrl }).eq('id', id),
+			await supabaseAdminClient.auth.admin.updateUserById(id, {
+				app_metadata: { avatar: publicUrl }
+			})
+		]);
+		if (updateProfileRes.error) {
+			console.error('Failed to update profile', updateProfileRes.error);
+			return fail(400, { error: 'Failed to update profile', form: withFiles(form) });
+		}
+		if (updateUserRes.error) {
+			console.error('Failed to update user', updateUserRes.error);
+			return fail(400, { error: 'Failed to update user', form: withFiles(form) });
+		}
+
+		await supabase.auth.refreshSession();
+
+		return { success: 'Avatar uploaded successfully', form: withFiles(form) };
+	},
+	removeAvatar: async ({ request, locals: { supabase } }) => {
+		const { id } = Object.fromEntries(await request.formData()) as { id: string };
+
+		const [updateProfileRes, updateUserRes] = await Promise.all([
+			supabase.from('profiles').update({ avatar: null }).eq('id', id),
+			supabaseAdminClient.auth.admin.updateUserById(id, {
+				app_metadata: { avatar: null }
+			})
+		]);
+		if (updateProfileRes.error) {
+			console.error('Failed to update profile', updateProfileRes.error);
+			return fail(400, { error: 'Failed to update profile' });
+		}
+		if (updateUserRes.error) {
+			console.error('Failed to update user', updateUserRes.error);
+			return fail(400, { error: 'Failed to update user' });
+		}
+
+		await supabase.auth.refreshSession();
+
+		return { success: 'Avatar removed successfully' };
 	}
 };
