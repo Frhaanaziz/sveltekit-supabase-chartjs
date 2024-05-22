@@ -1,7 +1,6 @@
 <script>
 	import StatCard from '$lib/components/dashboard/StatCard.svelte';
 	import {
-		ArrowUpIcon,
 		DollarSignIcon,
 		EyeIcon,
 		PackageIcon,
