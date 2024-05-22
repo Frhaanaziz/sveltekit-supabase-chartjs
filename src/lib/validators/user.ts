@@ -1,4 +1,5 @@
 import z from 'zod';
+import { fileSchema } from '.';
 
 export const userSchema = z.object({
 	id: z.string().min(1, { message: 'Invalid user' }),
@@ -20,3 +21,8 @@ export const createUserSchema = userSchema
 	});
 
 export const updateUserSchema = userSchema.omit({ password: true });
+
+export const updateAvatarSchema = z.object({
+	id: userSchema.shape.id,
+	avatar: fileSchema
+});
