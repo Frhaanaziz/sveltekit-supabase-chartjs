@@ -9,13 +9,13 @@
 	import type { ActionData, PageData } from './$types';
 	import SvelteTable, { type TableColumns } from 'svelte-table';
 	import { PlusIcon } from 'svelte-feather-icons';
-	import Pagination from '$lib/components/dashboard/Pagination.svelte';
+	import Pagination from '$lib/components/dashboard/tables/Pagination.svelte';
 	import CreateOrgForm from '$lib/components/forms/CreateOrgForm.svelte';
 	import { superForm as superFormApi } from 'sveltekit-superforms/client';
 	import { zod } from 'sveltekit-superforms/adapters';
 	import { createOrganizationSchema } from '$lib/validators/organization';
-	import OrgTableAction from '$lib/components/dashboard/OrgTableAction.svelte';
-	import RelativeDate from '$lib/components/dashboard/RelativeDate.svelte';
+	import OrgTableAction from '$lib/components/dashboard/tables/OrgTableAction.svelte';
+	import RelativeDate from '$lib/components/dashboard/tables/RelativeDate.svelte';
 
 	export let data: PageData;
 	export let form: ActionData;

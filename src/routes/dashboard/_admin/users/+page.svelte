@@ -6,14 +6,14 @@
 	import CreateUserForm from '$lib/components/forms/CreateUserForm.svelte';
 	import { createUserSchema } from '$lib/validators/user';
 	import { zod } from 'sveltekit-superforms/adapters';
-	import RoleBadge from '$lib/components/dashboard/RoleBadge.svelte';
+	import RoleBadge from '$lib/components/dashboard/tables/RoleBadge.svelte';
 	import UserTableAction from '$lib/components/dashboard/tables/UserTableAction.svelte';
 	import type { ProfileWithOrg } from '$types';
 	import type { TableColumns } from 'svelte-table';
-	import { ColumnsIcon, PlusIcon } from 'svelte-feather-icons';
+	import { PlusIcon } from 'svelte-feather-icons';
 	import SvelteTable from 'svelte-table';
-	import Pagination from '$lib/components/dashboard/Pagination.svelte';
-	import RelativeDate from '$lib/components/dashboard/RelativeDate.svelte';
+	import Pagination from '$lib/components/dashboard/tables/Pagination.svelte';
+	import RelativeDate from '$lib/components/dashboard/tables/RelativeDate.svelte';
 
 	export let data: PageData;
 	export let form: ActionData;
