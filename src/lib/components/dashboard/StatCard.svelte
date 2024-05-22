@@ -7,7 +7,7 @@
 	export let weekAmount: string;
 </script>
 
-<div class="bg-base-100 p-4 rounded shadow relative">
+<div class="bg-base-100 p-5 rounded shadow relative">
 	<div class="bg-base-300 p-2 absolute top-4 right-4 rounded">
 		<slot name="icon" />
 	</div>
