@@ -7,7 +7,7 @@
 	import { createUserSchema } from '$lib/validators/user';
 	import { zod } from 'sveltekit-superforms/adapters';
 	import RoleBadge from '$lib/components/dashboard/RoleBadge.svelte';
-	import UserTableAction from '$lib/components/dashboard/UserTableAction.svelte';
+	import UserTableAction from '$lib/components/dashboard/tables/UserTableAction.svelte';
 	import type { ProfileWithOrg } from '$types';
 	import type { TableColumns } from 'svelte-table';
 	import { ColumnsIcon, PlusIcon } from 'svelte-feather-icons';

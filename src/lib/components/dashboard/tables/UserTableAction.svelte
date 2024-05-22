@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { User } from '@supabase/supabase-js';
-	import AlertModal from '../modals/AlertModal.svelte';
+	import AlertModal from '../../modals/AlertModal.svelte';
 	import { invalidateAll } from '$app/navigation';
 	import toast from 'svelte-french-toast';
 	import { EditIcon, TrashIcon } from 'svelte-feather-icons';
