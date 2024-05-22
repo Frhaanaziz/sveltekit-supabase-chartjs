@@ -14,8 +14,8 @@
 	}
 </script>
 
-<div class="flex items-center justify-between">
-	<p class="font-semibold">Page {currentPage} of {totalPages}</p>
+<div class="flex items-center justify-end sm:justify-between">
+	<p class="font-semibold hidden sm:block">Page {currentPage} of {totalPages}</p>
 
 	<div class="join">
 		<a
