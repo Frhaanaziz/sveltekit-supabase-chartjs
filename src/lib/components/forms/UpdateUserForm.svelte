@@ -4,28 +4,13 @@
 	import type { z } from 'zod';
 	import type { SuperForm } from 'sveltekit-superforms/client';
 	import FormField from './FormField.svelte';
-	import type { ActionData } from '../../../routes/dashboard/_admin/users/[id]/update/$types';
-	import toast from 'svelte-french-toast';
-	import { invalidate } from '$app/navigation';
 
 	type UpdateUserType = z.infer<typeof updateUserSchema>;
 
-	export let formAction: ActionData;
 	export let superForm: SuperForm<UpdateUserType>;
 	export let orgs: Pick<Organization, 'id' | 'name'>[] = [];
 
-	const { form, errors, enhance, reset, submitting } = superForm;
-
-	async function handleSuccess() {
-		reset();
-		toast.success('User updated successfully');
-		invalidate('/dashboard/_admin/users');
-	}
-
-	$: {
-		if (formAction?.error) toast.error('Failed to update user, please try again later');
-		if (formAction?.success) handleSuccess();
-	}
+	const { form, errors, enhance, submitting } = superForm;
 </script>
 
 <form method="POST" action="?/updateUser" use:enhance class="space-y-5">
