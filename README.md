@@ -1,11 +1,10 @@
 # Halo teman - teman Developers. Please READ THIS Carefully.
 
-![alt text](/img/dashboard.png)
-
 ---
+
 ## Terima kasih sudah tertarik untuk join Pipeline
 
-## Ini adalah contoh Dashboard yang dibangun menggunakan [SvelteKit](https://kit.svelte.dev/) sebagai Frontend dan  [Supabase](https://supabase.com/)  sebagai Backend
+## Ini adalah contoh Dashboard yang dibangun menggunakan [SvelteKit](https://kit.svelte.dev/) sebagai Frontend dan [Supabase](https://supabase.com/) sebagai Backend
 
 <h3>
 <span style="color:red">
@@ -25,7 +24,7 @@ Jika sudah selesai membuat dashboard versi kamu silahkan.
 ## Demo Dashboard
 
 1. Untuk melihat Landing Page [klik disini](https://sveltekit-supabase-dashboard.vercel.app/).
-2. Untuk melihat Dashboard Setelah Login  [klik disini](https://sveltekit-supabase-dashboard.vercel.app/auth)
+2. Untuk melihat Dashboard Setelah Login [klik disini](https://sveltekit-supabase-dashboard.vercel.app/auth)
 
 ## Fitur Yang Dimiliki
 
@@ -33,7 +32,7 @@ Jika sudah selesai membuat dashboard versi kamu silahkan.
 - Dashboard bisa dipakai oleh banyak organisasi dengan akun ID masing - masing.
 - Bisa memiliki beberapa tingkatan role akses di dalam sebuah organization.
 - Bisa menambahkan dan menghapus pengguna dari dalam Dashboard.
-- Tampilan Table dan Chart 
+- Tampilan Table dan Chart
 - Demo mode (show hints and disable database updates)
 
 ## Teknologi Yang Dipakai
@@ -57,14 +56,14 @@ Jika sudah selesai membuat dashboard versi kamu silahkan.
 - Ada beberapa Typescript yang bermasalah.
 - Tambahkan Role dan Organization UI --> [[Dokumentasi]]
 - Improve mobile version
-- Deploy to Vercel* optional 
+- Deploy to Vercel\* optional
 
 ## Cara Memulai
 
 ### Bikin Akun Supabase
 
-1. Silahkan buat Proyek baru di [supabase.com](https://supabase.com/)  
-2. Pilih Settings API untuk melihat  project URL and API keys kamu.
+1. Silahkan buat Proyek baru di [supabase.com](https://supabase.com/)
+2. Pilih Settings API untuk melihat project URL and API keys kamu.
 
 ### Clone Repo Ini
 
