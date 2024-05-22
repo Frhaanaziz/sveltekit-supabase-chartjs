@@ -91,12 +91,12 @@
 
 {#if orgsData && orgs && orgs.length > 0}
 	<DashboardPage {pathname}>
-		<span slot="title">Organizations</span>
-		<div slot="content" class="bg-base-100 p-5 rounded">
+		<h1 slot="title">Organizations</h1>
+		<section slot="content" class="bg-base-100 p-5 rounded">
 			<div class="flex items-center mb-5">
-				<p class="text-lg font-semibold">
+				<h2 class="text-lg font-semibold">
 					Total organizations <span class="text-primary font-bold">({orgsData.totalRow})</span>
-				</p>
+				</h2>
 
 				<div class="tooltip ml-auto" data-tip="Create user">
 					<label for="add_org_modal" class="btn btn-outline btn-square btn-sm">
@@ -117,7 +117,7 @@
 			<div class="w-full mt-7">
 				<Pagination {...orgsData} {pathname} />
 			</div>
-		</div>
+		</section>
 	</DashboardPage>
 {/if}
 

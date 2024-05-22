@@ -35,13 +35,13 @@
 </script>
 
 <DashboardPage {pathname}>
-	<span slot="title">Update user</span>
+	<h1 slot="title">Update user</h1>
 
-	<div slot="content" class="bg-base-100 p-5 rounded">
+	<section slot="content" class="bg-base-100 p-5 rounded">
 		{#if profile}
 			<UpdateAvatarForm superForm={avatarSuperForm} {profile} />
 		{/if}
 
 		<UpdateUserForm {superForm} {orgs} />
-	</div>
+	</section>
 </DashboardPage>

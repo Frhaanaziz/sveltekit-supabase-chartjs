@@ -75,13 +75,13 @@
 
 {#if profilesData}
 	<DashboardPage {pathname}>
-		<span slot="title">Users</span>
+		<h1 slot="title">Users</h1>
 
-		<div slot="content" class="bg-base-100 p-5 rounded">
+		<section slot="content" class="bg-base-100 p-5 rounded">
 			<div class="flex items-center mb-5">
-				<p class="text-lg font-semibold">
+				<h2 class="text-lg font-semibold">
 					Total Users <span class="text-primary font-bold">({profilesData.totalRow})</span>
-				</p>
+				</h2>
 
 				<div class="tooltip ml-auto" data-tip="Create user">
 					<label for="add_user_modal" class="btn btn-outline btn-square btn-sm">
@@ -102,7 +102,7 @@
 			<div class="w-full mt-7">
 				<Pagination {...profilesData} {pathname} />
 			</div>
-		</div>
+		</section>
 	</DashboardPage>
 {/if}
 

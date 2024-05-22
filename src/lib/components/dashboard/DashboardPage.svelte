@@ -12,10 +12,8 @@
 
 <div class="flex flex-col h-full">
 	{#if $$slots.title}
-		<div class="flex items-center mb-6">
-			<span class="text-xl flex-1 font-semibold">
-				<slot name="title" />
-			</span>
+		<div class="flex justify-between items-center mb-6">
+			<slot name="title" />
 
 			<div class="text-sm breadcrumbs sm:block hidden">
 				<ul>

@@ -20,9 +20,9 @@
 </script>
 
 <DashboardPage {pathname}>
-	<span slot="title">Update organization</span>
+	<h1 slot="title">Update organization</h1>
 
-	<div slot="content" class="bg-base-100 p-5 rounded">
+	<section slot="content" class="bg-base-100 p-5 rounded">
 		<UpdateOrgForm formAction={form} {superForm} />
-	</div></DashboardPage
+	</section></DashboardPage
 >
