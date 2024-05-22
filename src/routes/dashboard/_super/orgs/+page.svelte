@@ -104,12 +104,16 @@
 					</label>
 				</div>
 			</div>
-			<SvelteTable
-				{columns}
-				rows={orgs}
-				classNameTable={'table divide-y'}
-				classNameTbody={'divide-y'}
-			/>
+
+			<div class="overflow-x-auto">
+				<SvelteTable
+					{columns}
+					rows={orgs}
+					classNameTable={'table divide-y min-w-[600px]'}
+					classNameTbody={'divide-y'}
+				/>
+			</div>
+
 			<div class="w-full mt-7">
 				<Pagination {...orgsData} {pathname} />
 			</div>
