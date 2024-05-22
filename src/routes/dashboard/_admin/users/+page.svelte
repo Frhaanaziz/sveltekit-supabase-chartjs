@@ -90,12 +90,14 @@
 				</div>
 			</div>
 
-			<SvelteTable
-				{columns}
-				rows={profilesData.content}
-				classNameTable={'table divide-y'}
-				classNameTbody={'divide-y'}
-			/>
+			<div class="overflow-x-auto">
+				<SvelteTable
+					{columns}
+					rows={profilesData.content}
+					classNameTable={'table divide-y min-w-[900px]'}
+					classNameTbody={'divide-y'}
+				/>
+			</div>
 
 			<div class="w-full mt-7">
 				<Pagination {...profilesData} {pathname} />
