@@ -19,8 +19,7 @@
 	<div class="hero min-h-fit my-5 bg-base-200">
 		<div class="hero-content text-center">
 			<div class="max-w-xl my-10">
-				<!-- <h1 class="text-4xl font-bold">Welcome to</h1> -->
-				<div class="container flex h-20 my-10 py-2 justify-center border-red-600">
+				<div class="container flex h-20 my-10 py-2 gap-10 justify-center border-red-600">
 					<div class="flex w-1/2 border-red-600">
 						<div class="flex w-1/3 border-red-600">
 							<img alt="svelte" src="svelte.png" />
@@ -29,9 +28,7 @@
 							<img alt="svelte" src="sveltekit.svg" />
 						</div>
 					</div>
-					<div class="flex w-1/2 ml-10 border-red-600">
-						<img alt="supabase" src="supabase_white.svg" />
-					</div>
+					<img alt="supabase" src="supabase.png" />
 				</div>
 				<h1 class="text-4xl font-bold">Dashboard!</h1>
 			</div>
