@@ -15,12 +15,12 @@
 	<div class="flex items-center gap-2 mt-3">
 		<p class="text-2xl font-semibold">{amount}</p>
 		{#if percentage > 0}
-			<div class="bg-green-100/80 p-1.5 rounded-full flex items-center gap-1 text-green-600">
+			<div class="bg-green-100/80 px-1.5 py-0.5 rounded-full flex items-center gap-1 text-green-600">
 				<ArrowUpIcon class="h-3.5 w-3.5" />
 				<span class="text-xs font-semibold"> {percentage}%</span>
 			</div>
 		{:else if percentage < 0}
-			<div class="bg-red-100/80 p-1.5 rounded-full flex items-center gap-1 text-red-600">
+			<div class="bg-red-100/80 px-1.5 py-0.5 rounded-full flex items-center gap-1 text-red-600">
 				<ArrowDownIcon class="h-3.5 w-3.5" />
 				<span class="text-xs font-semibold">{percentage}%</span>
 			</div>
