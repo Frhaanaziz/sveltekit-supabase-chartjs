@@ -1,6 +1,9 @@
 <script>
 	import AcquisitionStat from '$components/dashboard/AcquisitionStat.svelte';
 	import RevenueStat from '$components/dashboard/RevenueStat.svelte';
+	import SessionAgeStat from '$components/dashboard/SessionAgeStat.svelte';
+	import SessionDeviceStat from '$components/dashboard/SessionDeviceStat.svelte';
+	import SessionGenderStat from '$components/dashboard/SessionGenderStat.svelte';
 	import StatCard from '$components/dashboard/StatCard.svelte';
 	import { DollarSignIcon, EyeIcon, PackageIcon, UsersIcon } from 'svelte-feather-icons';
 
@@ -61,4 +64,10 @@
 	<div class="lg:col-span-5">
 		<AcquisitionStat />
 	</div>
+</section>
+
+<section class="grid grid-cols-1 gap-5 mt-5 xl:grid-cols-3">
+	<SessionDeviceStat />
+	<SessionAgeStat />
+	<SessionGenderStat />
 </section>
