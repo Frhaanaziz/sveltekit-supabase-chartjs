@@ -6,6 +6,7 @@ import { json } from '@sveltejs/kit';
 
 const roles = ['user', 'admin', 'super'] as const;
 const USER_PASSWORD = 'asdfasdf';
+const USER_AMOUNT = 500;
 
 export async function POST() {
 	console.info('Cleaning up...');
@@ -63,7 +64,7 @@ export async function POST() {
 	}
 
 	console.info('Creating users...');
-	for (let i = 0; i < 500; i++) {
+	for (let i = 0; i < USER_AMOUNT; i++) {
 		const created_at = faker.date.past();
 		const sex = faker.person.sexType();
 		const firstName = faker.person.firstName(sex);
@@ -113,7 +114,7 @@ export async function POST() {
 			error(500, createProfileRes.error.message);
 		}
 
-		console.info(`Created user ${i + 1}/${500}`);
+		console.info(`Created user ${i + 1}/${USER_AMOUNT}`);
 	}
 
 	return json({ success: true }, { status: 200 });
