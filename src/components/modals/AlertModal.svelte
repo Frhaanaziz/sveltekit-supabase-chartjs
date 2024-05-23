@@ -1,14 +1,13 @@
 <script lang="ts">
-	import { TrashIcon } from 'svelte-feather-icons';
-
 	export let onContinue: () => void;
+	export let id: string | number;
 
 	let isModalOpen = false;
 </script>
 
 <slot />
 
-<input type="checkbox" id="alert_modal" class="modal-toggle" bind:checked={isModalOpen} />
+<input type="checkbox" id={`alert_modal-${id}`} class="modal-toggle" bind:checked={isModalOpen} />
 <div class="modal" role="dialog" class:modal-open={isModalOpen}>
 	<div class="modal-box block">
 		<button
@@ -28,13 +27,13 @@
 			>
 			<button
 				class="btn btn-error"
-				on:click|preventDefault={() => {
-					onContinue();
+				on:click={() => {
+					onContinue?.();
 					isModalOpen = false;
 				}}>Continue</button
 			>
 		</div>
 	</div>
 
-	<label class="modal-backdrop" for="alert_modal">Close</label>
+	<label class="modal-backdrop" for={`alert_modal-${id}`}>Close</label>
 </div>
