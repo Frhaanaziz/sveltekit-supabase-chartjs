@@ -16,6 +16,7 @@
 		"update-types": "npx supabase gen types typescript --project-id yaczmlasurwnhxorzovo > src/types/supabase.ts"
 	},
 	"devDependencies": {
+		"@faker-js/faker": "^8.4.1",
 		"@sveltejs/adapter-node": "^5.0.1",
 		"@sveltejs/kit": "^2.5.9",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
