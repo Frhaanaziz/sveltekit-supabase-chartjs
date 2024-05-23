@@ -63,6 +63,6 @@
 			>Cancel</a
 		>
 
-		<button type="submit" class:btn-disabled={$submitting} class="btn">UPDATE USER</button>
+		<button type="submit" class:btn-disabled={$submitting} class="btn">Update</button>
 	</div>
 </form>
