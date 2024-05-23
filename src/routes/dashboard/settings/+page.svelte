@@ -1,44 +1,46 @@
 <script>
-	import { page } from '$app/stores';
 	import DashboardPage from '$components/dashboard/DashboardPage.svelte';
+	import UpdateUserForm from '$components/forms/UpdateUserForm.svelte';
+	import { superForm as superFormApi } from 'sveltekit-superforms/client';
+	import { zod } from 'sveltekit-superforms/adapters';
+	import { updateAvatarSchema, updateUserSchema } from '$lib/validators/user';
+	import { page } from '$app/stores';
+	import UpdateAvatarForm from '$components/forms/UpdateAvatarForm.svelte';
+	import toast from 'svelte-french-toast';
+	import { invalidateAll } from '$app/navigation';
 
-	/** @type {import('./$types').PageData} */
 	export let data;
+	export let form;
+	$: profile = data.profile;
 
-	const user = data.user;
+	const orgs = data.orgs;
+	if (!orgs) throw new Error('Missing data');
+	const superForm = superFormApi(data.form, {
+		validators: zod(updateUserSchema)
+	});
+	const avatarSuperForm = superFormApi(data.avatarForm, {
+		validators: zod(updateAvatarSchema)
+	});
+
 	const pathname = $page.url.pathname;
+
+	$: {
+		if (form?.error) toast.error(form.error);
+		if (form?.success) {
+			toast.success('User updated successfully');
+			invalidateAll();
+		}
+	}
 </script>
 
 <DashboardPage {pathname}>
-	<span slot="title">Settings</span>
-	<span slot="content">
-		<form id="edit" class="w-full max-w-sm" method="POST" action="?/save">
-			<div class="md:flex md:items-center mb-6 form-control">
-				<label class="input-group">
-					<span class="md:w-1/3 mr-1">Email</span>
-					<input type="text" value={user?.email} disabled class="input input-bordered md:w-2/3" />
-				</label>
+	<h1 slot="title">Update Profile</h1>
 
-				<label class="input-group pt-2">
-					<span class="md:w-1/3 mr-1">Organization</span>
-					<input
-						type="text"
-						value={user?.app_metadata.org?.name ?? 'N/A'}
-						disabled
-						class="input input-bordered md:w-2/3"
-					/>
-				</label>
+	<section slot="content" class="bg-base-100 p-5 rounded">
+		{#if profile}
+			<UpdateAvatarForm superForm={avatarSuperForm} {profile} />
+		{/if}
 
-				<label class="input-group pt-2">
-					<span class="md:w-1/3 mr-1">Role</span>
-					<input
-						type="text"
-						value={user?.app_metadata.role}
-						disabled
-						class="input input-bordered md:w-2/3"
-					/>
-				</label>
-			</div>
-		</form>
-	</span>
+		<UpdateUserForm {superForm} {orgs} />
+	</section>
 </DashboardPage>
