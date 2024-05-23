@@ -44,13 +44,13 @@
 			<p class="text-sm text-zinc-500 mt-1">Total income in this year</p>
 		</div>
 
-		<div class="hidden lg:block">
+		<!-- <div class="hidden lg:block">
 			<div role="tablist" class="tabs tabs-boxed tabs-sm">
 				<span role="tab" class="tab my-0.5">Day</span>
 				<span role="tab" class="tab my-0.5 tab-active">Month</span>
 				<span role="tab" class="tab my-0.5">Year</span>
 			</div>
-		</div>
+		</div> -->
 	</div>
 
 	<Bar
