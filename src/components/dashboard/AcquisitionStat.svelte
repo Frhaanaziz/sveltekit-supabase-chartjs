@@ -53,8 +53,8 @@
 	} satisfies ChartData<'line'>;
 </script>
 
-<div class="bg-base-100 pb-5">
-	<h2 class="text-lg font-semibold p-5 pb-4 m-0">Revenue Statistic</h2>
+<div class="bg-base-100 pb-5 shadow">
+	<h2 class="text-lg font-semibold p-5 pb-4 m-0">Customer Acquisition</h2>
 
 	<div class="border-y py-3">
 		<div class="grid grid-cols-3 divide-x">
