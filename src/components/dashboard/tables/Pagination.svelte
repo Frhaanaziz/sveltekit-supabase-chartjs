@@ -21,12 +21,14 @@
 		<a
 			class="join-item btn btn-sm btn-square"
 			class:btn-disabled={isFirstPage}
+			data-sveltekit-noscroll
 			href={`${pathname}?${createQueryString(previousPage.toString())}`}>«</a
 		>
 		<button class="join-item btn btn-sm no-animation">Page {currentPage}</button>
 		<a
 			class="join-item btn btn-sm btn-square"
 			class:btn-disabled={isLastPage}
+			data-sveltekit-noscroll
 			href={`${pathname}?${createQueryString(nextPage.toString())}`}>»</a
 		>
 	</div>
