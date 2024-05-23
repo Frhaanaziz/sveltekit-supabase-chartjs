@@ -33,7 +33,7 @@
 	} satisfies ChartData<'bar'>;
 </script>
 
-<div class="bg-base-100 p-5">
+<div class="bg-base-100 p-5 shadow">
 	<div class="flex justify-between">
 		<div>
 			<h2 class="text-lg font-semibold">Revenue Statistic</h2>
