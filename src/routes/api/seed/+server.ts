@@ -5,6 +5,7 @@ import { error } from '@sveltejs/kit';
 import { json } from '@sveltejs/kit';
 
 const roles = ['user', 'admin', 'super'] as const;
+const USER_PASSWORD = 'asdfasdf';
 
 export async function POST() {
 	console.info('Cleaning up...');
@@ -24,7 +25,7 @@ export async function POST() {
 	const authorRes = await supabase.auth.admin.createUser({
 		email: AUTHOR_EMAIL,
 		email_confirm: true,
-		password: 'asdfasdf',
+		password: USER_PASSWORD,
 		app_metadata: { name: AUTHOR_NAME, role: 'super' }
 	});
 	if (authorRes.error) {
@@ -43,6 +44,7 @@ export async function POST() {
 	const organizations: Organization[] = [];
 	for (let i = 0; i < faker.number.int({ min: 20, max: 30 }); i++) {
 		const created_at = faker.date.past();
+		// @ts-expect-error
 		const orgRes = await supabase
 			.from('orgs')
 			.insert({
@@ -50,7 +52,7 @@ export async function POST() {
 				created_by: authorRes.data.user.id,
 				created_at: created_at.toISOString()
 			})
-			.select()
+			.select('*')
 			.single();
 		if (orgRes.error) {
 			console.error('Failed to create organization', orgRes.error);
@@ -83,7 +85,7 @@ export async function POST() {
 		const org = faker.helpers.arrayElement(organizations);
 		const createUserRes = await supabase.auth.admin.createUser({
 			email,
-			password: faker.internet.password(),
+			password: USER_PASSWORD,
 			email_confirm: true,
 			app_metadata: {
 				name: fullName,
