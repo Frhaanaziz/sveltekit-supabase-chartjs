@@ -41,6 +41,50 @@ export async function POST() {
 		error(500, authorProfileRes.error.message);
 	}
 
+	console.info('Creating admin...');
+	const adminRes = await supabase.auth.admin.createUser({
+		email: 'admin@email.com',
+		email_confirm: true,
+		password: USER_PASSWORD,
+		app_metadata: { name: 'Admin', role: 'admin' }
+	});
+	if (adminRes.error) {
+		console.error('Failed to create admin', adminRes.error);
+		error(500, adminRes.error.message);
+	}
+	const adminProfileRes = await supabase.from('profiles').insert({
+		id: adminRes.data.user.id,
+		email: 'admin@email.com',
+		name: 'Admin',
+		role: 'admin'
+	});
+	if (adminProfileRes.error) {
+		console.error('Failed to create admin profile', adminProfileRes.error);
+		error(500, adminProfileRes.error.message);
+	}
+
+	console.info('Creating user demo...');
+	const userRes = await supabase.auth.admin.createUser({
+		email: 'user@email.com',
+		email_confirm: true,
+		password: USER_PASSWORD,
+		app_metadata: { name: 'User', role: 'user' }
+	});
+	if (userRes.error) {
+		console.error('Failed to create user demo', userRes.error);
+		error(500, userRes.error.message);
+	}
+	const userProfileRes = await supabase.from('profiles').insert({
+		id: userRes.data.user.id,
+		email: 'user@email.com',
+		name: 'User',
+		role: 'user'
+	});
+	if (userProfileRes.error) {
+		console.error('Failed to create user demo profile', userProfileRes.error);
+		error(500, userProfileRes.error.message);
+	}
+
 	console.info('Creating organizations...');
 	const organizations: Organization[] = [];
 	for (let i = 0; i < faker.number.int({ min: 20, max: 30 }); i++) {
