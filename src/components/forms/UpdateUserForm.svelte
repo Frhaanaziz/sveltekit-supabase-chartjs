@@ -4,11 +4,15 @@
 	import type { z } from 'zod';
 	import type { SuperForm } from 'sveltekit-superforms/client';
 	import FormField from './FormField.svelte';
+	import { getContext } from 'svelte';
+	import type { User } from '@supabase/supabase-js';
+	import { imAdmin, imSuper } from '$lib/utils';
 
 	type UpdateUserType = z.infer<typeof updateUserSchema>;
 
 	export let superForm: SuperForm<UpdateUserType>;
 	export let orgs: Pick<Organization, 'id' | 'name'>[] = [];
+	const user = getContext('user') as User;
 
 	const { form, errors, enhance, submitting } = superForm;
 </script>
@@ -52,8 +56,12 @@
 		<FormField label="Role" error={$errors.role}>
 			<select name="role" class="select select-bordered" bind:value={$form.role}>
 				<option value="user">User</option>
-				<option value="admin">Admin</option>
-				<option value="super">Super</option>
+				{#if imAdmin(user)}
+					<option value="admin">Admin</option>
+					{#if imSuper(user)}
+						<option value="super">Super</option>
+					{/if}
+				{/if}
 			</select>
 		</FormField>
 	</div>
