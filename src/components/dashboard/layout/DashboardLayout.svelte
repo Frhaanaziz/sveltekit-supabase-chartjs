@@ -1,40 +1,51 @@
 <script lang="ts">
-	import { FileIcon, HomeIcon, Share2Icon, UsersIcon } from 'svelte-feather-icons';
+	import { HomeIcon, Share2Icon, UsersIcon } from 'svelte-feather-icons';
 	import DashboardHeader from './DashboardHeader.svelte';
 	import DashboardSidebar from './DashboardSidebar.svelte';
+	import { getContext } from 'svelte';
+	import type { User } from '@supabase/supabase-js';
+	import { imAdmin, imSuper } from '$lib/utils';
 
-	const navigations = [
-		{
-			name: 'Main',
-			items: [
-				{
-					title: 'Dashboard',
-					Icon: HomeIcon,
-					href: '/dashboard'
-				}
-			]
-		},
-		{
-			name: 'Admin User',
-			items: [
-				{
-					title: 'Users',
-					Icon: UsersIcon,
-					href: '/dashboard/_admin/users'
-				}
-			]
-		},
-		{
-			name: 'Super User',
-			items: [
-				{
-					title: 'Organizations',
-					Icon: Share2Icon,
-					href: '/dashboard/_super/orgs'
-				}
-			]
-		}
-	];
+	const user = getContext('user') as User;
+
+	let navigations = [];
+	const userNavigation = {
+		name: 'Main',
+		items: [
+			{
+				title: 'Dashboard',
+				Icon: HomeIcon,
+				href: '/dashboard'
+			}
+		]
+	};
+	const adminNavigation = {
+		name: 'Admin User',
+		items: [
+			{
+				title: 'Users',
+				Icon: UsersIcon,
+				href: '/dashboard/_admin/users'
+			}
+		]
+	};
+	const superNavigation = {
+		name: 'Super User',
+		items: [
+			{
+				title: 'Organizations',
+				Icon: Share2Icon,
+				href: '/dashboard/_super/orgs'
+			}
+		]
+	};
+	if (imSuper(user)) {
+		navigations = [userNavigation, adminNavigation, superNavigation];
+	} else if (imAdmin(user)) {
+		navigations = [userNavigation, adminNavigation];
+	} else {
+		navigations = [userNavigation];
+	}
 </script>
 
 <div class="drawer">
