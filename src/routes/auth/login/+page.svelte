@@ -21,3 +21,12 @@
 	Seamless Access, Secure Connection: Your Gateway to a Personalized Experience.
 </h3>
 <LogInForm {superForm} />
+
+<div class="p-8 bg-base-300 shadow-xl mt-10">
+	<p>For testing purposes you can use the test users below or create your own account.</p>
+	<ul class="mt-4">
+		<li>'author@email.com' pass 'asdfasdf'</li>
+		<li>'admin@email.com' pass 'asdfasdf'</li>
+		<li>'user@email.com' pass 'asdfasdf'</li>
+	</ul>
+</div>
