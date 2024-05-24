@@ -1,4 +1,3 @@
-import { PUBLIC_DEMO_MODE } from '$env/static/public';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { superValidate } from 'sveltekit-superforms/server';
@@ -102,8 +101,6 @@ export const actions: Actions = {
 	 * @returns A promise that resolves to an object with the success message, or an error message.
 	 */
 	delete: async ({ request, locals: { supabase } }) => {
-		if (PUBLIC_DEMO_MODE) return fail(403, { error: 'Forbidden in demo mode' });
-
 		const form_data = await request.formData();
 		const id = form_data.get('id')?.toString();
 		if (!id) return fail(400, { error: 'Invalid organization id' });
