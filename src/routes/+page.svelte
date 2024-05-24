@@ -12,7 +12,7 @@
 			<a href="/" class="text-xl">Dashboard PIP</a>
 		</div>
 		<div class="flex-none">
-			<a href="/auth" role="button" class="btn btn-sm btn-primary">Sign In</a>
+			<a href="/auth/login" role="button" class="btn btn-sm btn-primary">Sign In</a>
 		</div>
 	</div>
 
