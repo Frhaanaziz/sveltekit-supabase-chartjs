@@ -1,4 +1,20 @@
 <script lang="ts">
+	/**
+	 * This Svelte component represents the update user page in the dashboard.
+	 * It allows the user to update user information and avatar.
+	 *
+	 * @component UpdateUserPage
+	 *
+	 * @param {Object} data - The page data containing the user profile and form data.
+	 * @param {Object} form - The action data for the form.
+	 *
+	 * @fires toast.success - Fires a success toast message when the user is updated successfully.
+	 * @fires toast.error - Fires an error toast message when there is an error updating the user.
+	 * @fires invalidateAll - Invalidates all cached data to trigger a refresh.
+	 *
+	 * @slot title - The title of the page.
+	 * @slot content - The content of the page.
+	 */
 	import DashboardPage from '$components/dashboard/DashboardPage.svelte';
 	import UpdateUserForm from '$components/forms/UpdateUserForm.svelte';
 	import { superForm as superFormApi } from 'sveltekit-superforms/client';

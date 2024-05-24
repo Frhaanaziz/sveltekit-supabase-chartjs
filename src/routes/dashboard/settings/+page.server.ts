@@ -5,6 +5,12 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { updateAvatarSchema, updateUserSchema } from '$lib/validators/user';
 import { supabaseAdminClient } from '$lib/server/supabase';
 
+/**
+ * Loads the data required for the dashboard settings page.
+ *
+ * @param event - The event object containing the Supabase client and getUser function.
+ * @returns An object containing the loaded data for the dashboard settings page.
+ */
 export const load: PageServerLoad = async (event) => {
 	const {
 		locals: { supabase, getUser }
@@ -43,7 +49,16 @@ export const load: PageServerLoad = async (event) => {
 	return { orgs, profile, form, avatarForm };
 };
 
+/**
+ * Actions object containing various functions for updating user information.
+ */
 export const actions: Actions = {
+	/**
+	 * Updates the user information.
+	 * @param request - The request object.
+	 * @param locals - The locals object containing the Supabase client.
+	 * @returns A promise that resolves to the updated user information or an error message.
+	 */
 	updateUser: async ({ request, locals: { supabase } }) => {
 		const formData = Object.fromEntries(await request.formData());
 		const form = await superValidate(formData, zod(updateUserSchema));
@@ -77,6 +92,13 @@ export const actions: Actions = {
 
 		return { success: 'User updated succesfully', form };
 	},
+
+	/**
+	 * Updates the user avatar.
+	 * @param request - The request object.
+	 * @param locals - The locals object containing the Supabase client.
+	 * @returns A promise that resolves to the updated user avatar information or an error message.
+	 */
 	updateAvatar: async ({ request, locals: { supabase } }) => {
 		const formData = await request.formData();
 		const form = await superValidate(formData, zod(updateAvatarSchema));
@@ -122,6 +144,13 @@ export const actions: Actions = {
 
 		return { success: 'Avatar uploaded successfully', form: withFiles(form) };
 	},
+
+	/**
+	 * Removes the user avatar.
+	 * @param request - The request object.
+	 * @param locals - The locals object containing the Supabase client.
+	 * @returns A promise that resolves to a success message or an error message.
+	 */
 	removeAvatar: async ({ request, locals: { supabase } }) => {
 		const { id } = Object.fromEntries(await request.formData()) as { id: string };
 

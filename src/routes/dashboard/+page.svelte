@@ -7,7 +7,26 @@
 	import StatCard from '$components/dashboard/StatCard.svelte';
 	import { DollarSignIcon, EyeIcon, PackageIcon, UsersIcon } from 'svelte-feather-icons';
 
-	export const statsData = [
+	/**
+	 * This Svelte component represents a dashboard page with multiple sections.
+	 *
+	 * @section Stats
+	 * This section displays a grid of stat cards, where each card represents a statistic.
+	 * The `statsData` array is iterated using the `each` block, and each card is rendered with the corresponding data.
+	 * The `Icon` component is used to display an icon for each stat, and the `StatCard` component is used to display the stat value.
+	 *
+	 * @section Revenue and Acquisition Stats
+	 * This section displays two columns, where the left column spans 7 columns and the right column spans 5 columns.
+	 * The `RevenueStat` component is rendered in the left column, and the `AcquisitionStat` component is rendered in the right column.
+	 *
+	 * @section Session Stats
+	 * This section displays a grid of session-related stats, where each stat is represented by a separate component.
+	 * The `SessionDeviceStat`, `SessionAgeStat`, and `SessionGenderStat` components are rendered in a grid with 3 columns.
+	 *
+	 * @note
+	 * This code assumes that the necessary components (`StatCard`, `RevenueStat`, `AcquisitionStat`, `SessionDeviceStat`, `SessionAgeStat`, `SessionGenderStat`) are imported and defined elsewhere in the codebase.
+	 */
+	const statsData = [
 		{
 			id: 1,
 			type: 'Revenue',

@@ -4,6 +4,12 @@ import { createSupabaseServerClient } from '@supabase/auth-helpers-sveltekit';
 import type { Handle } from '@sveltejs/kit';
 import { redirect } from '@sveltejs/kit';
 
+/**
+ * Handles the server-side logic for the event.
+ * @param event - The event object.
+ * @param resolve - The resolve function.
+ * @returns The resolved event object.
+ */
 export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.supabase = createSupabaseServerClient({
 		supabaseUrl: PUBLIC_SUPABASE_URL,
@@ -12,9 +18,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 	});
 
 	/**
-	 * a little helper that is written for convenience so that instead
+	 * A little helper that is written for convenience so that instead
 	 * of calling `const { data: { session } } = await supabase.auth.getSession()`
 	 * you just call this `await getSession()`
+	 * @returns The session data.
 	 */
 	event.locals.getSession = async () => {
 		const {
@@ -24,6 +31,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 	};
 
 	event.locals.getUser = async () => {
+		/**
+		 * Retrieves the user data from Supabase.
+		 * @returns The user data.
+		 */
 		const {
 			data: { user }
 		} = await event.locals.supabase.auth.getUser();
@@ -43,7 +54,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	if (event.url.pathname.startsWith('/dashboard/_admin')) {
 		if (!imAdmin(user)) {
 			console.info('You are not ADMIN!');
-			// redirect(303, '/dashboard');
+			redirect(303, '/dashboard');
 		}
 	}
 
@@ -59,6 +70,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 		 * There´s an issue with `filterSerializedResponseHeaders` not working when using `sequence`
 		 *
 		 * https://github.com/sveltejs/kit/issues/8061
+		 * @param name - The name of the response header.
+		 * @returns Whether to filter the response header or not.
 		 */
 		filterSerializedResponseHeaders(name) {
 			return name === 'content-range';

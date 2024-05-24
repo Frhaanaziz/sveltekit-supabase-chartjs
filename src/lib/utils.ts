@@ -54,6 +54,11 @@ export const roleAdmin = (session: AuthSession) => {
 	else return false;
 };
 
+/**
+ * Formats a date with time using the specified format.
+ * @param date - The date to format. It can be a Date object, a string, or a number.
+ * @returns The formatted date with time as a string.
+ */
 export function formatDateWithTime(date: Date | string | number): string {
 	return new Intl.DateTimeFormat('en-US', {
 		month: 'long',
@@ -65,6 +70,11 @@ export function formatDateWithTime(date: Date | string | number): string {
 	}).format(new Date(date));
 }
 
+/**
+ * Returns a relative time string based on the given date or time.
+ * @param date - The date or time to calculate the relative time for.
+ * @returns The relative time string.
+ */
 export function getRelativeTimeString(date: Date | number | string): string {
 	// Allow dates or times to be passed
 	const timeMs =
@@ -103,6 +113,14 @@ export function getRelativeTimeString(date: Date | number | string): string {
 	return rtf.format(Math.floor(deltaSeconds / (divisor || 1)), units[unitIndex] ?? 'second');
 }
 
+/**
+ * Calculates pagination values based on the given parameters.
+ * @param {Object} options - The pagination options.
+ * @param {number} options.page - The current page number.
+ * @param {number} options.take - The number of rows to display per page.
+ * @param {number} options.totalRow - The total number of rows.
+ * @returns {Object} - The pagination values.
+ */
 export function calculatePagination({
 	page,
 	take,

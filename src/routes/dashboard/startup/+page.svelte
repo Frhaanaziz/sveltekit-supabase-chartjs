@@ -1,15 +1,30 @@
 <script lang="ts">
+	/**
+	 * This file represents the startup page of the dashboard in a SvelteKit application.
+	 * It displays different content based on the form's success status and user data.
+	 *
+	 * @export let data: PageData;
+	 * @export let form: ActionData;
+	 *
+	 * @const {object} user - The user data obtained from `data`.
+	 * @const {string} pathname - The current URL pathname obtained from `$page.url.pathname`.
+	 *
+	 * @function onMount - A lifecycle function that runs after the component is mounted.
+	 * It displays an error toast if `form.error` exists.
+	 *
+	 * @returns {Promise<void>}
+	 */
 	import DashboardPage from '$components/dashboard/DashboardPage.svelte';
 	import { onMount } from 'svelte';
-
 	import { page } from '$app/stores';
 	import toast from 'svelte-french-toast';
-	import type { ActionData, PageData } from './$types';
+	import type { PageData } from '../$types';
+	import type { ActionData } from './$types';
 
 	export let data: PageData;
 	export let form: ActionData;
 
-	const user = data.session?.user;
+	const user = data.user;
 	const pathname = $page.url.pathname;
 
 	onMount(async () => {

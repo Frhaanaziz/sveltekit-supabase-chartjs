@@ -4,6 +4,12 @@ import { superValidate } from 'sveltekit-superforms/server';
 import { zod } from 'sveltekit-superforms/adapters';
 import { updateOrganizationSchema } from '$lib/validators/organization';
 
+/**
+ * Loads the data for the page.
+ *
+ * @param event - The event object containing the parameters and locals.
+ * @returns An object containing the loaded organization data and form data.
+ */
 export const load: PageServerLoad = async (event) => {
 	const {
 		params: { id: orgId },
@@ -23,6 +29,12 @@ export const load: PageServerLoad = async (event) => {
 	return { orgs, form };
 };
 
+/**
+ * Updates an organization.
+ * @param request - The HTTP request object.
+ * @param locals.supabase - The Supabase client object.
+ * @returns An object containing the result of the update operation.
+ */
 export const actions: Actions = {
 	updateOrg: async ({ request, locals: { supabase } }) => {
 		const formData = Object.fromEntries(await request.formData());

@@ -1,4 +1,12 @@
 <script lang="ts">
+	/**
+	 * This Svelte component represents the update page for an organization in the dashboard.
+	 * It imports various dependencies and defines the necessary variables and components.
+	 * The component receives `data` and `form` as props.
+	 * The `data` prop contains the organization data, while the `form` prop contains the action data.
+	 * The component renders a `DashboardPage` component with a title and a content section.
+	 * The content section includes an `UpdateOrgForm` component for updating the organization.
+	 */
 	import DashboardPage from '$components/dashboard/DashboardPage.svelte';
 	import { superForm as superFormApi } from 'sveltekit-superforms/client';
 	import type { ActionData, PageData } from './$types';

@@ -1,4 +1,13 @@
 <script lang="ts">
+	/**
+	 * This Svelte component represents the user page in the admin dashboard.
+	 * It displays a table of users with their information and provides the ability to create new users.
+	 *
+	 * @component DashboardAdminUsersPage
+	 *
+	 * @param {PageData} data - The data for the page, including the list of users and their information.
+	 * @param {ActionData} form - The form data for creating a new user.
+	 */
 	import { page } from '$app/stores';
 	import DashboardPage from '$components/dashboard/DashboardPage.svelte';
 	import type { ActionData, PageData } from './$types';

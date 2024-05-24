@@ -7,6 +7,15 @@ import { createUserSchema } from '$lib/validators/user';
 import type { ProfileWithOrg } from '$types';
 import { calculatePagination } from '$lib/utils';
 
+/**
+ * Retrieves paginated profiles with optional search functionality.
+ *
+ * @param {Object} options - The options for pagination and search.
+ * @param {number} options.page - The current page number.
+ * @param {number} options.take - The number of profiles to retrieve per page.
+ * @param {string} options.search - The search query to filter profiles by name.
+ * @returns {Promise<Object>} - The paginated profiles and pagination metadata.
+ */
 async function getProfilesPagination({
 	page,
 	take,
@@ -55,6 +64,11 @@ async function getProfilesPagination({
 	};
 }
 
+/**
+ * Loads the data required for the dashboard admin users page.
+ * @param {PageServerEvent} event - The server event object.
+ * @returns {Promise<PageServerLoadResult>} The result of loading the data.
+ */
 export const load: PageServerLoad = async (event) => {
 	const {
 		url: { searchParams },
@@ -79,7 +93,15 @@ export const load: PageServerLoad = async (event) => {
 	return { profilesData, orgs, form };
 };
 
+/**
+ * Actions object containing functions for creating and deleting users.
+ */
 export const actions: Actions = {
+	/**
+	 * Creates a new user.
+	 * @param request - The request object containing form data.
+	 * @returns An object indicating the success or failure of the user creation, along with the form data.
+	 */
 	createUser: async ({ request }) => {
 		const formData = Object.fromEntries(await request.formData());
 		const form = await superValidate(formData, zod(createUserSchema));
@@ -115,11 +137,14 @@ export const actions: Actions = {
 		return { success: 'User created succesfully', form };
 	},
 
+	/**
+	 * Deletes a user.
+	 * @param request - The request object containing form data.
+	 * @returns An object indicating the success or failure of the user deletion.
+	 */
 	delete: async ({ request }) => {
 		const form_data = await request.formData();
 		const id = form_data.get('id')?.toString();
-
-		// TODO PREVENT DELETING USERS FROM OTHER ORGS
 
 		if (id) {
 			const res = await supabaseClient.auth.admin.deleteUser(id);

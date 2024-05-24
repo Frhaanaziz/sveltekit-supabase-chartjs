@@ -1,10 +1,16 @@
 <script lang="ts">
+	/**
+	 * The layout component for the dashboard route.
+	 *
+	 * @module routes/dashboard/+layout
+	 * @param {Object} data - The data object containing user information.
+	 * @throws {Error} Throws an error if no user data is provided to the layout.
+	 */
 	import DashboardLayout from '$components/dashboard/layout/DashboardLayout.svelte';
 	import { onMount, setContext } from 'svelte';
 	import { themeChange } from 'theme-change';
-	import type { LayoutData } from './$types';
 
-	export let data: LayoutData;
+	export let data;
 
 	const user = data.user;
 	if (!user) throw new Error('No user data provided to layout');

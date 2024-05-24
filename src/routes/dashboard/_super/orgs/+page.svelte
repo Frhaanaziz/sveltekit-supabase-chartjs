@@ -1,11 +1,16 @@
 <script lang="ts">
-	import { applyAction, deserialize } from '$app/forms';
-	import { invalidateAll } from '$app/navigation';
+	/**
+	 * This Svelte component represents the page for displaying organizations in a dashboard.
+	 * It includes a table with organization data, pagination, and a form for creating new organizations.
+	 *
+	 * @component DashboardOrgsPage
+	 *
+	 * @param {PageData} data - The page data containing information about organizations.
+	 * @param {ActionData} form - The form data for creating organizations.
+	 */
 	import { page } from '$app/stores';
 	import DashboardPage from '$components/dashboard/DashboardPage.svelte';
 	import type { Organization } from '$types';
-	import type { ActionResult } from '@sveltejs/kit';
-	import toast from 'svelte-french-toast';
 	import type { ActionData, PageData } from './$types';
 	import SvelteTable, { type TableColumns } from 'svelte-table';
 	import { PlusIcon } from 'svelte-feather-icons';
@@ -28,34 +33,6 @@
 	const superForm = superFormApi(data.form!, {
 		validators: zod(createOrganizationSchema)
 	});
-
-	// https://kit.svelte.dev/docs/form-actions#progressive-enhancement-custom-event-listener
-	const deleteAction = async (id: Organization['id']) => {
-		const data = new FormData();
-		data.append('id', id);
-		const response = await fetch('orgs?/delete', {
-			method: 'POST',
-			body: data
-		});
-
-		const result: ActionResult = deserialize(await response.text());
-
-		if (result.type === 'success') {
-			// re-run all `load` functions, following the successful update
-			await invalidateAll();
-			toast.success('Organization deleted successfully');
-		}
-
-		applyAction(result);
-	};
-
-	const onAction = (a: any) => {
-		switch (a.action) {
-			case 'delete':
-				deleteAction(a.row.id);
-				break;
-		}
-	};
 
 	const columns = [
 		{

@@ -14,6 +14,9 @@ export type Navigation = {
 	}[];
 };
 
+/**
+ * Represents a set of pagination utilities.
+ */
 export type PaginatedUtils = {
 	currentPage: number;
 	isFirstPage: boolean;

@@ -1,6 +1,13 @@
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 
+/**
+ * Loads the user data for the dashboard page on the server side.
+ *
+ * @param {Object} params - The parameters object.
+ * @param {Function} params.locals.getUser - The function to get the user data.
+ * @returns {Promise<Object>} - A promise that resolves to the user data if the user is authorized, or rejects with an error if unauthorized.
+ */
 export const load: PageServerLoad = async ({ locals: { getUser } }) => {
 	const user = await getUser();
 	if (!user) return fail(401, { error: 'Unauthorized' });
@@ -8,6 +15,12 @@ export const load: PageServerLoad = async ({ locals: { getUser } }) => {
 	return user;
 };
 
+/**
+ * Save action for the dashboard startup page.
+ * @param request - The HTTP request object.
+ * @param locals - The local variables object containing Supabase and getUser function.
+ * @returns A promise that resolves to an object indicating the success or failure of the save action.
+ */
 export const actions: Actions = {
 	save: async ({ request, locals: { supabase, getUser } }) => {
 		const user = await getUser();
